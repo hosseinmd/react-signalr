@@ -169,7 +169,7 @@ function providerFactory<T extends string>(
         }
       }
 
-      const checkInterval = setInterval(() => {
+      const checkForStart = () => {
         checkExpectedSignalRMessages();
 
         if (
@@ -181,7 +181,11 @@ function providerFactory<T extends string>(
           connectionId = null;
           start();
         }
-      }, 6000);
+      };
+
+      checkForStart();
+
+      const checkInterval = setInterval(checkForStart, 6000);
 
       events.forEach((event) => {
         connection.on(event, (message: any) => {
