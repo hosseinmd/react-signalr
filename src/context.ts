@@ -194,7 +194,7 @@ function createSignalRContext<T extends string>(events: T[]) {
 
 function useSignalREffect<T extends string>(
   events: T | T[],
-  callback: () => void,
+  callback: <T>(message: T) => void,
   deps: any[] = [],
 ) {
   useEffect(() => {
