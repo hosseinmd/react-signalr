@@ -8,10 +8,11 @@
 
 Supported microsoft/signalR version 5 and later
 
-features
+Features
 
-- Connect event to a component
-- Manage connections in multiple tabs
+- Hooks for connect event to a component
+- Manage connections in multiple tabs (SignalR can only have about 6 tabs open). React-signalr will create a connection open and send event to other tabs by [hermes-channel](https://github.com/hosseinmd/hermes)
+- Handle reconnect
 
 ## TOC
 
