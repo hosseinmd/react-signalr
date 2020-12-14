@@ -10,7 +10,7 @@ import { DependencyList, useEffect } from "react";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 
-interface ProviderProps extends IHttpConnectionOptions {
+export interface ProviderProps extends IHttpConnectionOptions {
   url: string;
   /** Default is true */
   connectEnabled?: boolean;
