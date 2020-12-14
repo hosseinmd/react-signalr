@@ -6,6 +6,8 @@
 
 ## react-signalr
 
+Supported microsoft/signalR version 5 and later
+
 features
 
 - Connect event to a component
