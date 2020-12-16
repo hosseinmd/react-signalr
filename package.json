@@ -31,13 +31,14 @@
   },
   "homepage": "https://github.com/hosseinmd/react-signalr#readme",
   "dependencies": {
-    "hermes-channel": "^0.0.6",
-    "@microsoft/signalr": "^5.0.0"
+    "@microsoft/signalr": "^5.0.0",
+    "hermes-channel": "^0.0.6"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.15",
+    "@types/js-cookie": "^2.2.6",
     "@types/react": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
@@ -48,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
+    "js-cookie": "^2.2.1",
     "prettier": "^2.2.0",
     "prettier-plugin-jsdoc": "^0.2.4",
     "react": "^17.0.1",
