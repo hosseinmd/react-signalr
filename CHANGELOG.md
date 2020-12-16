@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/hosseinmd/react-signalr/compare/v0.0.6...v0.0.7) (2020-12-16)
+
+
+### Bug Fixes
+
+* don't reconnect if another tab connected ([9e341eb](https://github.com/hosseinmd/react-signalr/commit/9e341eb3a24f566944e51f632ca2f744c926fca6))
+
 ### [0.0.6](https://github.com/hosseinmd/react-signalr/compare/v0.0.5...v0.0.6) (2020-12-16)
 
 ### [0.0.5](https://github.com/hosseinmd/react-signalr/compare/v0.0.4...v0.0.5) (2020-12-14)
