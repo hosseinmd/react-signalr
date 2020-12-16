@@ -173,14 +173,16 @@ function providerFactory<T extends string>(
               if (connectionId) {
                 clearInterval(sentInterval);
                 connection.stop();
+
                 return;
               }
+
               hermes.send(IS_SIGNAL_R_CONNECTED, connection.connectionId);
             }
 
-            syncWithTabs();
-
             sentInterval = setInterval(syncWithTabs, 4000);
+
+            syncWithTabs();
           } catch (err) {
             console.log(err);
             clearInterval(sentInterval);
