@@ -1,16 +1,12 @@
 import {
-  HubConnection,
   HubConnectionBuilder,
-  HubConnectionState,
   IHttpConnectionOptions,
   LogLevel,
 } from "@microsoft/signalr";
 import hermes from "hermes-channel";
 import { DependencyList, useEffect } from "react";
 import jsCookie from "js-cookie";
-
-// @ts-ignore
-const __DEV__ = process.env.NODE_ENV !== "production";
+import { isConnectionConnecting, __DEV__ } from "./utils";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
@@ -55,22 +51,22 @@ function providerFactory<T extends string>(
       Context.connection = connection;
       let lastConnectionSentState: number | null =
         Number(jsCookie.get(KEY_LAST_CONNECTION_TIME)) || null;
-      let connectionId: string | null = null;
+      let anotherTabConnectionId: string | null = null;
 
       /** If another tab connected to signalR we will receive this event */
-      hermes.on(IS_SIGNAL_R_CONNECTED, (_connectionId) => {
-        // connected tab will send empty _connectionId before close
-        if (!_connectionId) {
+      hermes.on(IS_SIGNAL_R_CONNECTED, (_anotherTabConnectionId) => {
+        // connected tab will send empty _anotherTabConnectionId before close
+        if (!_anotherTabConnectionId) {
           lastConnectionSentState = null;
-          connectionId = null;
+          anotherTabConnectionId = null;
           checkForStart();
 
           return;
         }
         if (__DEV__) {
-          console.log("_connectionId");
+          console.log("_anotherTabConnectionId");
         }
-        connectionId = _connectionId;
+        anotherTabConnectionId = _anotherTabConnectionId;
         lastConnectionSentState = Date.now();
         if (!isConnectionConnecting(connection)) {
           sentInterval && clearInterval(sentInterval);
@@ -106,7 +102,7 @@ function providerFactory<T extends string>(
             await connection.start();
 
             function syncWithTabs() {
-              if (connectionId) {
+              if (anotherTabConnectionId) {
                 clearInterval(sentInterval);
                 connection.stop();
 
@@ -122,9 +118,6 @@ function providerFactory<T extends string>(
           } catch (err) {
             console.log(err);
             clearInterval(sentInterval);
-            if (connectionId) {
-              return;
-            }
           }
         }
       }
@@ -139,7 +132,10 @@ function providerFactory<T extends string>(
         });
       });
 
-      /** Before of this tab close this event will sent an empty connectionId to other tabs */
+      /**
+       * Before of this tab close this event will sent an empty
+       * anotherTabConnectionId to other tabs
+       */
       function onBeforeunload() {
         if (isConnectionConnecting(connection)) {
           shoutConnected(null);
@@ -179,29 +175,21 @@ function providerFactory<T extends string>(
   return Provider;
 }
 
-function shoutConnected(connectionId: string | null) {
-  if (!connectionId) {
+function shoutConnected(anotherTabConnectionId: string | null) {
+  if (!anotherTabConnectionId) {
     hermes.send(IS_SIGNAL_R_CONNECTED, "");
     jsCookie.set(KEY_LAST_CONNECTION_TIME, "");
 
     return;
   }
 
-  hermes.send(IS_SIGNAL_R_CONNECTED, connectionId);
+  hermes.send(IS_SIGNAL_R_CONNECTED, anotherTabConnectionId);
   const expires = new Date();
   expires.setSeconds(expires.getSeconds() + 10);
   jsCookie.set(KEY_LAST_CONNECTION_TIME, Date.now().toString(), {
     expires,
     path: "/",
   });
-}
-
-function isConnectionConnecting(connection: HubConnection) {
-  return (
-    connection.state === HubConnectionState.Connected ||
-    connection.state === HubConnectionState.Reconnecting ||
-    connection.state === HubConnectionState.Connecting
-  );
 }
 
 export { providerFactory };
