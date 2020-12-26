@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
+using Example.ViewModel;
 
 namespace Example.Hubs
 {
@@ -16,6 +17,13 @@ namespace Example.Hubs
         {
 
             await base.OnDisconnectedAsync(exception);
+        }
+         public async Task StartWorkAsync( ViewModel.StartWorkVm message)
+        {
+            await Clients.All.StartWorkAsync(message);
+            // await _hub.Clients.User("userId").StartWorkAsync(message);
+            // await _hub.Clients.Groups("groups").StartWorkAsync(message);
+            // and Other Clients.
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+    "dir": "./src/services",
+    "hub": "http://localhost:5000/api/signalRTypes/getSignalrType.json",
+    "language": "typescript",
+    "ignore": {
+        "headerParams": [
+            "terminalId"
+        ]
+    }
+}
