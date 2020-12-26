@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { createSignalRContext, useSignalREffect } from "../../lib";
 
-const SignalRContext = createSignalRContext(["start-work", "stop-work"]);
+const SignalRContext = createSignalRContext(["startwork", "stopwork"]);
 
 const App = () => {
   return (
@@ -18,9 +18,12 @@ const App = () => {
 };
 
 function Todo() {
+  const [message, setMessage] = useState("");
+
   useSignalREffect(
     ["startwork"],
     (message) => {
+      setMessage(JSON.stringify(message));
       console.log(message, "ok");
     },
     [],
@@ -35,9 +38,11 @@ function Todo() {
         height: "100%",
       }}
     >
-      <h3>useFetching</h3>
-      <span>1 second loading start delay</span>
-      <div style={{ minHeight: "100px", width: "50px", display: "flex" }} />
+      <h3>React signalR</h3>
+      <button onClick={() => fetch("http://localhost:5000/home/start")}>
+        Invoke signalR
+      </button>
+      <p>{message}</p>
     </div>
   );
 }
