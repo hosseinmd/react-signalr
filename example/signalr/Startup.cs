@@ -3,14 +3,18 @@ using Example.Hubs;
 using Example.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Septa.AspNetCore.SignalRTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Example
 {
@@ -27,7 +31,6 @@ namespace Example
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
             services.AddCors(options =>
             {
                 options.AddPolicy(DefaultCorsPolicyName, builder =>
@@ -43,7 +46,19 @@ namespace Example
                         .AllowAnyMethod();
                 });
             });
-            services.AddScoped<IChatHubService, ChatHubService>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddSignalR()
+                        .AddNewtonsoftJsonProtocol(options =>
+                            {
+                                options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                                options.PayloadSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                                options.PayloadSerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                                options.PayloadSerializerSettings.Converters.Add(new StringEnumConverter());
+                            }
+                        );
+
+            services.AddSignalRTypes();
+
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
@@ -52,23 +67,14 @@ namespace Example
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseSignalrType(x =>
             {
                 x.RoutePath = "/api/signalRTypes/getSignalrType.json";
-                x.HubServices = new Dictionary<string, Type>
-                {
-                    {
-                        nameof(ChatHubService), typeof(ChatHubService)
-                    }
-                };
             });
-
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthorization();

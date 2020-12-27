@@ -1,11 +1,10 @@
-﻿using Example.ViewModel;
+using Example.ViewModel;
 using System.Threading.Tasks;
 
 namespace Example.Contract
 {
-    public interface IChatHubService
+    public interface IChatService
     {
         Task StartWorkAsync(StartWorkVm message);
-        Task StopWork(StopWorkVm message);
     }
 }
