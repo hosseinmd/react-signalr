@@ -10,17 +10,17 @@ namespace Example.Controllers
     public class HomeController : ControllerBase
     {
 
-        private readonly IChatHubService _chatHubService;
+        private readonly IChatService _chatService;
 
-        public HomeController(IChatHubService chatHubService)
+        public HomeController(IChatService chatService)
         {
-            _chatHubService = chatHubService;
+            _chatService = chatService;
         }
 
         [HttpGet("start")]
         public async Task<String> Start()
         {
-            await _chatHubService.StartWorkAsync(new ViewModel.StartWorkVm()
+            await _chatService.StartWorkAsync(new ViewModel.StartWorkVm()
             {
                 BirthDate = DateTime.Now,
                 FirstName = "Majid",
@@ -33,11 +33,12 @@ namespace Example.Controllers
         [HttpGet("stop")]
         public async Task Stop()
         {
-            await _chatHubService.StopWork(new ViewModel.StopWorkVm()
-            {
-                Date = DateTime.Now,
-                Description = "Majid"
-            });
+            // await _chatService.StopWork(new ViewModel.StopWorkVm()
+            // {
+            //     Date = DateTime.Now,
+            //     Description = "Majid"
+            // });
+            return ;
 
         }
     }
