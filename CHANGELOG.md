@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/hosseinmd/react-signalr/compare/v0.0.7...v0.0.9) (2020-12-27)
+
+
+### Features
+
+* add onError to provider ([9f5cf5f](https://github.com/hosseinmd/react-signalr/commit/9f5cf5f09f43de7506d1905b388ea2ddcaa8e0ab))
+
+
+### Bug Fixes
+
+* split react-native provider ([34500f3](https://github.com/hosseinmd/react-signalr/commit/34500f31397456108b1c5105697731ad037cedd9))
+
 ### [0.0.7](https://github.com/hosseinmd/react-signalr/compare/v0.0.6...v0.0.7) (2020-12-16)
 
 
