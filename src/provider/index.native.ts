@@ -1,19 +1,8 @@
-import {
-  HubConnectionBuilder,
-  IHttpConnectionOptions,
-  LogLevel,
-} from "@microsoft/signalr";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { DependencyList, useEffect } from "react";
-import { isConnectionConnecting, __DEV__ } from "./utils";
-
-export interface ProviderProps extends IHttpConnectionOptions {
-  url: string;
-  /** Default is true */
-  connectEnabled?: boolean;
-  children: JSX.Element;
-  dependencies?: DependencyList;
-}
+import { useEffect, useRef } from "react";
+import { isConnectionConnecting, __DEV__ } from "../utils";
+import { ProviderProps } from "./types";
 
 function providerFactory<T extends string>(
   Context: any,
@@ -26,15 +15,23 @@ function providerFactory<T extends string>(
     connectEnabled = true,
     children,
     dependencies = [],
+    accessTokenFactory,
+    onError,
     ...rest
   }: ProviderProps) => {
+    const onErrorRef = useRef(onError);
+    const accessTokenFactoryRef = useRef(accessTokenFactory);
+
     useEffect(() => {
       if (!connectEnabled) {
         return;
       }
 
       let connectionBuilder = new HubConnectionBuilder()
-        .withUrl(url, rest)
+        .withUrl(url, {
+          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+          ...rest,
+        })
         .withAutomaticReconnect();
 
       if (__DEV__) {
@@ -44,6 +41,7 @@ function providerFactory<T extends string>(
       }
 
       const connection = connectionBuilder.build();
+      connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
 
@@ -67,6 +65,7 @@ function providerFactory<T extends string>(
             await connection.start();
           } catch (err) {
             console.log(err);
+            onErrorRef.current?.(err);
           }
         }
       }

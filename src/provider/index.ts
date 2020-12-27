@@ -1,22 +1,12 @@
-import {
-  HubConnectionBuilder,
-  IHttpConnectionOptions,
-  LogLevel,
-} from "@microsoft/signalr";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { DependencyList, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import jsCookie from "js-cookie";
-import { isConnectionConnecting, __DEV__ } from "./utils";
+import { isConnectionConnecting, __DEV__ } from "../utils";
+import { ProviderProps } from "./types";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
-export interface ProviderProps extends IHttpConnectionOptions {
-  url: string;
-  /** Default is true */
-  connectEnabled?: boolean;
-  children: JSX.Element;
-  dependencies?: DependencyList;
-}
 
 function providerFactory<T extends string>(
   Context: any,
@@ -29,15 +19,23 @@ function providerFactory<T extends string>(
     connectEnabled = true,
     children,
     dependencies = [],
+    accessTokenFactory,
+    onError,
     ...rest
   }: ProviderProps) => {
+    const onErrorRef = useRef(onError);
+    const accessTokenFactoryRef = useRef(accessTokenFactory);
+
     useEffect(() => {
       if (!connectEnabled) {
         return;
       }
 
       let connectionBuilder = new HubConnectionBuilder()
-        .withUrl(url, rest)
+        .withUrl(url, {
+          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+          ...rest,
+        })
         .withAutomaticReconnect();
 
       if (__DEV__) {
@@ -47,6 +45,7 @@ function providerFactory<T extends string>(
       }
 
       const connection = connectionBuilder.build();
+      connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
       let lastConnectionSentState: number | null =
@@ -118,6 +117,7 @@ function providerFactory<T extends string>(
           } catch (err) {
             console.log(err);
             clearInterval(sentInterval);
+            onErrorRef.current?.(err);
           }
         }
       }
@@ -167,7 +167,7 @@ function providerFactory<T extends string>(
         window?.removeEventListener?.("beforeunload", onBeforeunload);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [connectEnabled, ...dependencies]);
+    }, [connectEnabled, url, ...dependencies]);
 
     return children;
   };
@@ -193,3 +193,4 @@ function shoutConnected(anotherTabConnectionId: string | null) {
 }
 
 export { providerFactory };
+export type { ProviderProps };
