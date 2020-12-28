@@ -69,3 +69,5 @@ yarn.lock
 
 # jest snapshots
 __snapshots__/
+
+.vscode
