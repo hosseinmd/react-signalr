@@ -1,6 +1,8 @@
-import { HubConnection } from "@microsoft/signalr";
+import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import hermes from "hermes-channel";
 import { providerFactory, ProviderProps } from "./provider";
+
+const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 
 export interface Context<T extends string> {
   Provider: (Props: ProviderProps) => JSX.Element;
@@ -9,6 +11,7 @@ export interface Context<T extends string> {
     [name in T]: number | null;
   };
   selfCallIfNotReceived: (event: T | T[]) => void;
+  invoke(methodName: string, ...args: any[]): void;
 }
 
 function createSignalRContext<T extends string>(events: readonly T[]) {
@@ -58,8 +61,18 @@ function createSignalRContext<T extends string>(events: readonly T[]) {
     connection: null,
     eventsExpectedLast,
     selfCallIfNotReceived: addToExpectedSignalRMessages,
+    invoke: (methodName: string, ...args: any[]) => {
+      hermes.send(SIGNAL_R_INVOKE, { methodName, args }, true);
+    },
     Provider: null as any, // just for ts ignore
   };
+
+  hermes.on(SIGNAL_R_INVOKE, (data) => {
+    if (context.connection?.state === HubConnectionState.Connected) {
+      context.connection.send(data.methodName, ...data.args);
+    }
+  });
+
   context.Provider = providerFactory(
     context,
     events,

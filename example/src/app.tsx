@@ -57,7 +57,7 @@ function Todo() {
             birthDate: new Date().toISOString(),
           };
 
-          SignalRContext.connection?.invoke(
+          SignalRContext.invoke(
             ChatHubServiceOperationsNames.StartWorkAsync,
             data,
           );
