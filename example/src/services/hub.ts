@@ -18,11 +18,11 @@ export enum ChatHubServiceCallbacksNames {
   stopwork = "stopwork",
 }
 
-export interface ChatHubServiceCallbacks {
+export type ChatHubServiceCallbacks = {
   [ChatHubServiceCallbacksNames.hello]: () => void;
   [ChatHubServiceCallbacksNames.startwork]: (message?: StartWorkVm) => void;
   [ChatHubServiceCallbacksNames.stopwork]: (message?: StopWorkVm) => void;
-}
+};
 
 export enum JobType {
   Programer = "Programer",

@@ -8,14 +8,15 @@ import {
   __DEV__,
 } from "../utils";
 import { ProviderProps } from "./types";
+import { Context, Hub } from "../types";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
 
-function providerFactory<T extends string>(
-  Context: any,
-  events: readonly T[],
-  removeFromExpectedSignalRMessages: (event: T) => void,
+function providerFactory<T extends Hub>(
+  Context: Context<T>,
+  events: T["callbacksName"][],
+  removeFromExpectedSignalRMessages: (event: T["callbacksName"]) => void,
   checkExpectedSignalRMessages: () => void,
 ) {
   const Provider = ({

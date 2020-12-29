@@ -1,12 +1,13 @@
 import hermes from "hermes-channel";
 import { useEffect } from "react";
+import { Context, Hub } from "../types";
 import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
 import { ProviderProps } from "./types";
 
-function providerFactory<T extends string>(
-  Context: any,
-  events: readonly T[],
-  removeFromExpectedSignalRMessages: (event: T) => void,
+function providerFactory<T extends Hub>(
+  Context: Context<T>,
+  events: T["callbacksName"][],
+  removeFromExpectedSignalRMessages: (event: T["callbacksName"]) => void,
   checkExpectedSignalRMessages: () => void,
 ) {
   const Provider = ({

@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 
-import { createSignalRContext, useSignalREffect } from "../../lib";
+import { createSignalRContext } from "../../lib";
+import { Hub } from "../../lib/types";
 import {
   ChatHubServiceCallbacksNames,
   ChatHubServiceCallbacks,
   ChatHubServiceOperationsNames,
   StartWorkVm,
 } from "./services/hub";
+interface A extends Hub {
+  callbacksName: ChatHubServiceCallbacksNames;
+  methodsName: ChatHubServiceOperationsNames;
 
-const SignalRContext = createSignalRContext<ChatHubServiceCallbacksNames>(
+  callbacks: ChatHubServiceCallbacks;
+}
+const SignalRContext = createSignalRContext<A>(
   Object.values(ChatHubServiceCallbacksNames),
 );
 
@@ -28,14 +34,19 @@ const App = () => {
 function Todo() {
   const [message, setMessage] = useState("");
 
-  const callback: ChatHubServiceCallbacks[ChatHubServiceCallbacksNames.startwork] = (
+  const callback: A["callbacks"][ChatHubServiceCallbacksNames.startwork] = (
     message,
   ) => {
     setMessage(JSON.stringify(message));
     console.log(message, "ok");
   };
 
-  useSignalREffect([ChatHubServiceCallbacksNames.startwork], callback, []);
+  SignalRContext.useSignalREffect(
+    ChatHubServiceCallbacksNames.startwork,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    callback,
+    [],
+  );
 
   return (
     <div

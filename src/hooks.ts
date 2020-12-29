@@ -1,14 +1,16 @@
 import hermes from "hermes-channel";
 import { DependencyList, useEffect } from "react";
 
-function useSignalREffect<T extends string>(
-  events: T | T[],
-  callback: (message: any) => void,
-  deps: DependencyList,
-) {
-  useEffect(() => {
-    let _events: T[];
+export type UseSignalREffect<
+  T extends string = string,
+  C extends (...args: any) => void = (...args: any) => void
+> = (events: T, callback: C, deps: DependencyList) => void;
 
+const useSignalREffect: UseSignalREffect = (events, callback, deps) => {
+  useEffect(() => {
+    let _events: string[];
+
+    // backward compatible array should remove
     if (!Array.isArray(events)) {
       _events = [events];
     } else {
@@ -26,6 +28,6 @@ function useSignalREffect<T extends string>(
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-}
+};
 
 export { useSignalREffect };

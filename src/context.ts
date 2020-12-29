@@ -1,20 +1,12 @@
-import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import { HubConnectionState } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { providerFactory, ProviderProps } from "./provider";
+import { useSignalREffect } from "./hooks";
+import { providerFactory } from "./provider";
+import { Context, Hub } from "./types";
 
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 
-export interface Context<T extends string> {
-  Provider: (Props: ProviderProps) => JSX.Element;
-  connection: HubConnection | null;
-  eventsExpectedLast: {
-    [name in T]: number | null;
-  };
-  selfCallIfNotReceived: (event: T | T[]) => void;
-  invoke(methodName: string, ...args: any[]): void;
-}
-
-function createSignalRContext<T extends string>(events: readonly T[]) {
+function createSignalRContext<T extends Hub>(events: T["callbacksName"][]) {
   function initialExpectedSignalRMessages() {
     return events.reduce((pre, cur) => {
       return {
@@ -25,10 +17,12 @@ function createSignalRContext<T extends string>(events: readonly T[]) {
   }
 
   const eventsExpectedLast: {
-    [name in T]: number | null;
+    [name in T["callbacksName"]]: number | null;
   } = initialExpectedSignalRMessages();
 
-  function addToExpectedSignalRMessages(event: T | T[]) {
+  function addToExpectedSignalRMessages(
+    event: T["callbacksName"] | T["callbacksName"][],
+  ) {
     if (Array.isArray(event)) {
       event.forEach((e) => {
         eventsExpectedLast[e] = Date.now();
@@ -40,19 +34,16 @@ function createSignalRContext<T extends string>(events: readonly T[]) {
     eventsExpectedLast[event] = Date.now();
   }
 
-  function removeFromExpectedSignalRMessages(event: T) {
+  function removeFromExpectedSignalRMessages(event: T["callbacksName"]) {
     eventsExpectedLast[event] = null;
   }
-  // function removeAllExpectedSignalRMessages() {
-  //   Context.events = initialExpectedSignalRMessages();
-  // }
 
   function checkExpectedSignalRMessages() {
     Object.keys(eventsExpectedLast).forEach((event) => {
-      const last = eventsExpectedLast[event as T];
+      const last = eventsExpectedLast[event as T["callbacksName"]];
       if (last && last < Date.now() - 3000) {
         hermes.send(event, "expected", true);
-        eventsExpectedLast[event as T] = null;
+        eventsExpectedLast[event as T["callbacksName"]] = null;
       }
     });
   }
@@ -60,6 +51,7 @@ function createSignalRContext<T extends string>(events: readonly T[]) {
   const context: Context<T> = {
     connection: null,
     eventsExpectedLast,
+    useSignalREffect,
     selfCallIfNotReceived: addToExpectedSignalRMessages,
     invoke: (methodName: string, ...args: any[]) => {
       hermes.send(SIGNAL_R_INVOKE, { methodName, args }, true);
