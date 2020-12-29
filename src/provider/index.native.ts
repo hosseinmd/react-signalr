@@ -1,7 +1,6 @@
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { useEffect, useRef } from "react";
-import { isConnectionConnecting, __DEV__ } from "../utils";
+import { useEffect } from "react";
+import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
 import { ProviderProps } from "./types";
 
 function providerFactory<T extends string>(
@@ -19,28 +18,18 @@ function providerFactory<T extends string>(
     onError,
     ...rest
   }: ProviderProps) => {
-    const onErrorRef = useRef(onError);
-    const accessTokenFactoryRef = useRef(accessTokenFactory);
+    const onErrorRef = usePropRef(onError);
+    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
 
     useEffect(() => {
       if (!connectEnabled) {
         return;
       }
 
-      let connectionBuilder = new HubConnectionBuilder()
-        .withUrl(url, {
-          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
-          ...rest,
-        })
-        .withAutomaticReconnect();
-
-      if (__DEV__) {
-        connectionBuilder = connectionBuilder.configureLogging(
-          LogLevel.Information,
-        );
-      }
-
-      const connection = connectionBuilder.build();
+      const connection = createConnection(url, {
+        accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+        ...rest,
+      });
       connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
@@ -93,7 +82,7 @@ function providerFactory<T extends string>(
         });
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [connectEnabled, ...dependencies]);
+    }, [connectEnabled, url, ...dependencies]);
 
     return children;
   };

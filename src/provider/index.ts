@@ -1,8 +1,12 @@
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import jsCookie from "js-cookie";
-import { isConnectionConnecting, __DEV__ } from "../utils";
+import {
+  createConnection,
+  isConnectionConnecting,
+  usePropRef,
+  __DEV__,
+} from "../utils";
 import { ProviderProps } from "./types";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
@@ -23,28 +27,19 @@ function providerFactory<T extends string>(
     onError,
     ...rest
   }: ProviderProps) => {
-    const onErrorRef = useRef(onError);
-    const accessTokenFactoryRef = useRef(accessTokenFactory);
+    const onErrorRef = usePropRef(onError);
+    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
 
     useEffect(() => {
       if (!connectEnabled) {
         return;
       }
 
-      let connectionBuilder = new HubConnectionBuilder()
-        .withUrl(url, {
-          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
-          ...rest,
-        })
-        .withAutomaticReconnect();
+      const connection = createConnection(url, {
+        accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+        ...rest,
+      });
 
-      if (__DEV__) {
-        connectionBuilder = connectionBuilder.configureLogging(
-          LogLevel.Information,
-        );
-      }
-
-      const connection = connectionBuilder.build();
       connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
