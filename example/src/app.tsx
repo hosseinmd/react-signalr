@@ -1,21 +1,9 @@
 import React, { useState } from "react";
-
 import { createSignalRContext } from "../../lib";
-import { Hub } from "../../lib/types";
-import {
-  ChatHubServiceCallbacksNames,
-  ChatHubServiceCallbacks,
-  ChatHubServiceOperationsNames,
-  StartWorkVm,
-} from "./services/hub";
-interface A extends Hub {
-  callbacksName: ChatHubServiceCallbacksNames;
-  methodsName: ChatHubServiceOperationsNames;
+import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
-  callbacks: ChatHubServiceCallbacks;
-}
-const SignalRContext = createSignalRContext<A>(
-  Object.values(ChatHubServiceCallbacksNames),
+const SignalRContext = createSignalRContext<Chat>(
+  Object.values(ChatCallbacksNames),
 );
 
 const App = () => {
@@ -34,17 +22,13 @@ const App = () => {
 function Todo() {
   const [message, setMessage] = useState("");
 
-  const callback: A["callbacks"][ChatHubServiceCallbacksNames.startwork] = (
-    message,
-  ) => {
-    setMessage(JSON.stringify(message));
-    console.log(message, "ok");
-  };
-
   SignalRContext.useSignalREffect(
-    ChatHubServiceCallbacksNames.startwork,
+    ChatCallbacksNames.startwork,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    callback,
+    (message) => {
+      setMessage(JSON.stringify(message));
+      console.log(message, "ok");
+    },
     [],
   );
 
@@ -60,19 +44,13 @@ function Todo() {
       <h3>React signalR</h3>
       <button
         onClick={() => {
-          const data: StartWorkVm = {
+          SignalRContext.invoke(ChatOperationsNames.StartWorkAsync, {
             firstName: "h",
             lastName: "m",
             //@ts-ignore
             JobType: 1,
             birthDate: new Date().toISOString(),
-          };
-
-          SignalRContext.invoke(
-            ChatHubServiceOperationsNames.StartWorkAsync,
-            data,
-          );
-          //  fetch("http://localhost:5000/home/start")
+          });
         }}
       >
         Invoke signalR

@@ -1,15 +1,6 @@
 import { HubConnection } from "@microsoft/signalr";
-import { UseSignalREffect } from "./hooks";
+import { DependencyList } from "react";
 import { ProviderProps } from "./provider";
-
-export type ElementType<
-  T extends ReadonlyArray<unknown>
-> = T extends ReadonlyArray<infer ElementType> ? ElementType : never;
-
-type A<
-  C extends Hub["callbacks"],
-  N extends Hub["callbacksName"]
-> = UseSignalREffect<N, C[N]>;
 
 export interface Context<T extends Hub> {
   Provider: (Props: ProviderProps) => JSX.Element;
@@ -20,17 +11,28 @@ export interface Context<T extends Hub> {
   selfCallIfNotReceived: (
     event: T["callbacksName"] | T["callbacksName"][],
   ) => void;
-  invoke(methodName: string, ...args: any[]): void;
-  useSignalREffect: A<T["callbacks"], T["callbacksName"]>;
+  invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
+    methodName: E,
+    ...args: C
+  ) => void;
+  useSignalREffect: <E extends T["callbacksName"], C extends T["callbacks"][E]>(
+    events: E,
+    callback: C,
+    deps: DependencyList,
+  ) => void;
 }
 
-export interface Hub<T extends string = string> {
+export interface Hub<T extends string = string, M extends string = string> {
   callbacksName: T;
-  methodsName: string;
+  methodsName: M;
   callbacks: {
     [name in T]: <F extends (...args: any) => any>(
       ...args: Parameters<F>
     ) => void;
   };
-  methods: <T extends (...args: any) => any>(...args: Parameters<T>) => void;
+  methods: {
+    [name in M]: <F extends (...args: any) => any>(
+      ...args: Parameters<F>
+    ) => void;
+  };
 }

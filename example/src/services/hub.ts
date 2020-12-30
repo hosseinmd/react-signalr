@@ -1,28 +1,36 @@
-export enum ChatHubServiceOperationsNames {
+export enum ChatOperationsNames {
   StartWorkAsync = "StartWorkAsync",
   StopWork = "StopWork",
+  StopWork2 = "StopWork2",
 }
 
-export interface ChatHubServiceOperations {
-  [ChatHubServiceOperationsNames.StartWorkAsync]: (
+export type ChatOperations = {
+  [ChatOperationsNames.StartWorkAsync]: (
     message?: StartWorkVm,
   ) => Promise<void>;
-  [ChatHubServiceOperationsNames.StopWork]: (
-    message?: StopWorkVm,
-  ) => Promise<void>;
-}
+  [ChatOperationsNames.StopWork]: (message?: StopWorkVm) => Promise<void>;
+  [ChatOperationsNames.StopWork2]: (message?: string) => Promise<void>;
+};
 
-export enum ChatHubServiceCallbacksNames {
+export enum ChatCallbacksNames {
   hello = "hello",
   startwork = "startwork",
   stopwork = "stopwork",
 }
 
-export type ChatHubServiceCallbacks = {
-  [ChatHubServiceCallbacksNames.hello]: () => void;
-  [ChatHubServiceCallbacksNames.startwork]: (message?: StartWorkVm) => void;
-  [ChatHubServiceCallbacksNames.stopwork]: (message?: StopWorkVm) => void;
+export type ChatCallbacks = {
+  [ChatCallbacksNames.hello]: () => void;
+  [ChatCallbacksNames.startwork]: (message?: StartWorkVm) => void;
+  [ChatCallbacksNames.stopwork]: (message?: StopWorkVm) => void;
 };
+
+export interface Chat {
+  callbacksName: ChatCallbacksNames;
+  callbacks: ChatCallbacks;
+
+  methodsName: ChatOperationsNames;
+  methods: ChatOperations;
+}
 
 export enum JobType {
   Programer = "Programer",

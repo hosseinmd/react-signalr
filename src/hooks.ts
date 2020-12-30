@@ -1,12 +1,11 @@
 import hermes from "hermes-channel";
 import { DependencyList, useEffect } from "react";
 
-export type UseSignalREffect<
-  T extends string = string,
-  C extends (...args: any) => void = (...args: any) => void
-> = (events: T, callback: C, deps: DependencyList) => void;
-
-const useSignalREffect: UseSignalREffect = (events, callback, deps) => {
+const useSignalREffect = <T extends string, C extends (...args: any) => void>(
+  events: T,
+  callback: C,
+  deps: DependencyList,
+) => {
   useEffect(() => {
     let _events: string[];
 
