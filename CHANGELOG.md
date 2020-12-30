@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/hosseinmd/react-signalr/compare/v0.0.9...v0.0.10) (2020-12-30)
+
+
+### Features
+
+* implement invoke ([5adf138](https://github.com/hosseinmd/react-signalr/commit/5adf138866591002e5e91d983d878840b6f62c41))
+
+
+### Bug Fixes
+
+* types of callbacks and invoke ([a532848](https://github.com/hosseinmd/react-signalr/commit/a532848d36e792a8f2f69c126e2656adf9bee62c))
+
 ### [0.0.9](https://github.com/hosseinmd/react-signalr/compare/v0.0.7...v0.0.9) (2020-12-27)
 
 
