@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { createSignalRContext } from "../../lib";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
-const SignalRContext = createSignalRContext<Chat>(
-  Object.values(ChatCallbacksNames),
-);
+const SignalRContext = createSignalRContext<Chat>();
 
 const App = () => {
   return (

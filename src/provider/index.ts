@@ -1,5 +1,5 @@
 import hermes from "hermes-channel";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import jsCookie from "js-cookie";
 import {
   createConnection,
@@ -13,12 +13,7 @@ import { Context, Hub } from "../types";
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
 
-function providerFactory<T extends Hub>(
-  Context: Context<T>,
-  events: T["callbacksName"][],
-  removeFromExpectedSignalRMessages: (event: T["callbacksName"]) => void,
-  checkExpectedSignalRMessages: () => void,
-) {
+function providerFactory<T extends Hub>(Context: Context<T>) {
   const Provider = ({
     url,
     connectEnabled = true,
@@ -30,8 +25,10 @@ function providerFactory<T extends Hub>(
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
     const accessTokenFactoryRef = usePropRef(accessTokenFactory);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const clear = useRef(() => {});
 
-    useEffect(() => {
+    function refreshConnection() {
       if (!connectEnabled) {
         return;
       }
@@ -69,23 +66,9 @@ function providerFactory<T extends Hub>(
         }
       });
 
-      const expectedCallbacks = events.map((event) => () => {
-        removeFromExpectedSignalRMessages(event as any);
-      });
-
-      events.forEach((event, index) => {
-        hermes.on(
-          event,
-          //@ts-ignore
-          expectedCallbacks[index],
-        );
-      });
-
       let sentInterval: any;
 
       async function checkForStart() {
-        checkExpectedSignalRMessages();
-
         if (
           (!lastConnectionSentState ||
             lastConnectionSentState < Date.now() - 5000) &&
@@ -122,12 +105,6 @@ function providerFactory<T extends Hub>(
 
       const checkInterval = setInterval(checkForStart, 6000);
 
-      events.forEach((event) => {
-        connection.on(event, (message: any) => {
-          hermes.send(event, message, true);
-        });
-      });
-
       /**
        * Before of this tab close this event will sent an empty
        * anotherTabConnectionId to other tabs
@@ -145,22 +122,31 @@ function providerFactory<T extends Hub>(
       /** AddEventListener is not exist in react-native */
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
-      return () => {
+      clear.current = () => {
         clearInterval(checkInterval);
         sentInterval && clearInterval(sentInterval);
         connection.stop();
         hermes.off(IS_SIGNAL_R_CONNECTED);
 
-        events.forEach((event, index) => {
-          hermes.off(
-            event,
-            //@ts-ignore
-            expectedCallbacks[index],
-          );
-        });
-
         /** RemoveEventListener is not exist in react-native */
         window?.removeEventListener?.("beforeunload", onBeforeunload);
+      };
+    }
+
+    useState(() => {
+      refreshConnection();
+    });
+
+    const isMounted = useRef<boolean>(false);
+
+    useEffect(() => {
+      if (isMounted.current) {
+        refreshConnection();
+      }
+
+      isMounted.current = true;
+      return () => {
+        clear.current();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectEnabled, url, ...dependencies]);

@@ -1,5 +1,5 @@
 import hermes from "hermes-channel";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Context, Hub } from "../types";
 import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
 import { ProviderProps } from "./types";
@@ -21,8 +21,10 @@ function providerFactory<T extends Hub>(
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
     const accessTokenFactoryRef = usePropRef(accessTokenFactory);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const clear = useRef(() => {});
 
-    useEffect(() => {
+    function refreshConnection() {
       if (!connectEnabled) {
         return;
       }
@@ -34,18 +36,6 @@ function providerFactory<T extends Hub>(
       connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
-
-      const expectedCallbacks = events.map((event) => () => {
-        removeFromExpectedSignalRMessages(event as any);
-      });
-
-      events.forEach((event, index) => {
-        hermes.on(
-          event,
-          //@ts-ignore
-          expectedCallbacks[index],
-        );
-      });
 
       async function checkForStart() {
         checkExpectedSignalRMessages();
@@ -64,30 +54,32 @@ function providerFactory<T extends Hub>(
 
       const checkInterval = setInterval(checkForStart, 6000);
 
-      events.forEach((event) => {
-        connection.on(event, (message: any) => {
-          hermes.send(event, message, true);
-        });
-      });
-
-      return () => {
+      clear.current = () => {
         clearInterval(checkInterval);
         connection.stop();
+      };
+    }
 
-        events.forEach((event, index) => {
-          hermes.off(
-            event,
-            //@ts-ignore
-            expectedCallbacks[index],
-          );
-        });
+    useState(() => {
+      refreshConnection();
+    });
+
+    const isMounted = useRef<boolean>(false);
+
+    useEffect(() => {
+      if (isMounted.current) {
+        refreshConnection();
+      }
+
+      isMounted.current = true;
+      return () => {
+        clear.current();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectEnabled, url, ...dependencies]);
 
     return children;
   };
-
   return Provider;
 }
 

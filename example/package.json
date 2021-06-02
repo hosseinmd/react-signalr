@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "run-hub": "cd ./signalr && dotnet run",
+    "run-hub": "cd ./signalr && dotnet run cd ../",
     "start": "cd ../ && yarn build && cd ./example && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
