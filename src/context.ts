@@ -19,9 +19,7 @@ function createSignalRContext<T extends Hub>() {
       console.log({ events, event, connection: context.connection });
 
       if (!events.includes(event)) {
-        context.connection?.on(event, (message: any) => {
-          console.log("sdsd");
-
+        context.connection?.on(event, (...message: any) => {
           hermes.send(event, message, true);
         });
       }
