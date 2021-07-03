@@ -10,6 +10,9 @@ function createUseSignalREffect<T extends Hub>(context: Context<T>) {
   ) => {
     useEffect(() => {
       let _events: string[];
+      function _callback(args: any[]) {
+        callback(...args);
+      }
 
       // backward compatible array should remove
       if (!Array.isArray(events)) {
@@ -20,13 +23,13 @@ function createUseSignalREffect<T extends Hub>(context: Context<T>) {
 
       _events.forEach((event) => {
         context.onEvent?.(event);
-        hermes.on(event, callback);
+        hermes.on(event, _callback);
       });
 
       return () => {
         _events.forEach((event) => {
           context.offEvent?.(event);
-          hermes.off(event, callback);
+          hermes.off(event, _callback);
         });
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
