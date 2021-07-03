@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/hosseinmd/react-signalr/compare/v0.1.0...v0.1.1) (2021-07-03)
+
+
+### Bug Fixes
+
+* get unlimited arguments  ([5fa0168](https://github.com/hosseinmd/react-signalr/commit/5fa0168d2006c6deb22d22176529fc034c8298b1))
+
 ### [0.1.0](https://github.com/hosseinmd/react-signalr/compare/v0.0.10...v0.0.11) (2021-06-02)
 
 ### Features
