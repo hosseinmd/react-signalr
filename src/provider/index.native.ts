@@ -1,4 +1,3 @@
-import hermes from "hermes-channel";
 import { useEffect, useRef, useState } from "react";
 import { Context, Hub } from "../types";
 import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
