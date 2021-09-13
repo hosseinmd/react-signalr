@@ -61,7 +61,7 @@ const Comp = () => {
   const [messages, setMessage] = useState([]);
 
   useSignalREffect(
-    ["message"],
+    "message",
     (message) => {
       setMessage([...messages, message]);
     },
