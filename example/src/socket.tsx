@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createSocketContext } from "../../lib/socket";
+import { createSocketContext } from "../../lib";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
 const SocketContext = createSocketContext<Chat>();
