@@ -19,7 +19,7 @@ export enum ChatCallbacksNames {
 }
 
 export type ChatCallbacks = {
-  [ChatCallbacksNames.hello]: () => void;
+  [ChatCallbacksNames.hello]: (message: string) => void;
   [ChatCallbacksNames.startwork]: (message?: StartWorkVm) => void;
   [ChatCallbacksNames.stopwork]: (message?: StopWorkVm) => void;
 };
