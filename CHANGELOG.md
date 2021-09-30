@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/hosseinmd/react-signalr/compare/v0.1.1...v0.1.2) (2021-09-30)
+
+
+### Features
+
+* implements socket.io ([#4](https://github.com/hosseinmd/react-signalr/issues/4)) ([c2dbd70](https://github.com/hosseinmd/react-signalr/commit/c2dbd704bc24a13a72141421cd29485ea897ac95))
+
+
+### Bug Fixes
+
+* few missed socket context ([eb6989b](https://github.com/hosseinmd/react-signalr/commit/eb6989ba34b0ff0e8bd0072f18713fffd5eb66c8))
+
 ### [0.1.1](https://github.com/hosseinmd/react-signalr/compare/v0.1.0...v0.1.1) (2021-07-03)
 
 
