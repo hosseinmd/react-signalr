@@ -15,9 +15,7 @@ function createSignalRContext<T extends Hub>() {
       hermes.send(SIGNAL_R_INVOKE, { methodName, args }, true);
     },
     Provider: null as any, // just for ts ignore
-    onEvent: (event: string) => {
-      console.log({ events, event, connection: context.connection });
-
+    on: (event: string) => {
       if (!events.includes(event)) {
         context.connection?.on(event, (...message: any) => {
           hermes.send(event, message, true);
@@ -26,7 +24,7 @@ function createSignalRContext<T extends Hub>() {
 
       events.push(event);
     },
-    offEvent: (event: string) => {
+    off: (event: string) => {
       if (events.includes(event)) {
         events.splice(events.indexOf(event), 1);
       }

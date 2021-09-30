@@ -10,7 +10,7 @@ export interface Context<T extends Hub> {
     methodName: E,
     ...args: C
   ) => void;
-  useSignalREffect: <E extends T["callbacksName"], C extends T["callbacks"][E]>(
+  useSocketEffect: <E extends T["callbacksName"], C extends T["callbacks"][E]>(
     events: E,
     callback: C,
     deps: DependencyList,

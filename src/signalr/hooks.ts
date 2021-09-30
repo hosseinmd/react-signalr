@@ -22,13 +22,13 @@ function createUseSignalREffect<T extends Hub>(context: Context<T>) {
       }
 
       _events.forEach((event) => {
-        context.onEvent?.(event);
+        context.on?.(event);
         hermes.on(event, _callback);
       });
 
       return () => {
         _events.forEach((event) => {
-          context.offEvent?.(event);
+          context.off?.(event);
           hermes.off(event, _callback);
         });
       };

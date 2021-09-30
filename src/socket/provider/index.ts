@@ -119,7 +119,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           shoutConnected(null);
 
           clearInterval(sentInterval);
-          connection.close();
+          connection.disconnect();
           return;
         }
       }
@@ -130,7 +130,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       clear.current = () => {
         clearInterval(checkInterval);
         sentInterval && clearInterval(sentInterval);
-        connection.close();
+        connection.disconnect();
         hermes.off(IS_SOCKET_CONNECTED);
 
         /** RemoveEventListener is not exist in react-native */

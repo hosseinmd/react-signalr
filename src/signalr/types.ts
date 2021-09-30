@@ -14,8 +14,8 @@ export interface Context<T extends Hub> {
     callback: C,
     deps: DependencyList,
   ) => void;
-  onEvent?: (event: string) => void;
-  offEvent?: (event: string) => void;
+  on?: (event: string) => void;
+  off?: (event: string) => void;
 }
 
 export interface Hub<T extends string = string, M extends string = string> {

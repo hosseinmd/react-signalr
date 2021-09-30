@@ -3,7 +3,7 @@ import { DependencyList, useEffect } from "react";
 import { Context, Hub } from "./types";
 
 function createUseSocketEffect<T extends Hub>(context: Context<T>) {
-  const useSignalREffect = <T extends string, C extends (...args: any) => void>(
+  const useSocketEffect = <T extends string, C extends (...args: any) => void>(
     events: T,
     callback: C,
     deps: DependencyList,
@@ -36,6 +36,6 @@ function createUseSocketEffect<T extends Hub>(context: Context<T>) {
     }, deps);
   };
 
-  return useSignalREffect;
+  return useSocketEffect;
 }
 export { createUseSocketEffect };

@@ -25,7 +25,7 @@ function createConnection(
 ) {
   const connectionBuilder = io(url, transportType);
 
-  const connection = connectionBuilder.connect();
+  const connection = connectionBuilder;
   return connection;
 }
 

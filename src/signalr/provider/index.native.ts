@@ -3,12 +3,7 @@ import { Context, Hub } from "../types";
 import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
 import { ProviderProps } from "./types";
 
-function providerFactory<T extends Hub>(
-  Context: Context<T>,
-  events: T["callbacksName"][],
-  removeFromExpectedSignalRMessages: (event: T["callbacksName"]) => void,
-  checkExpectedSignalRMessages: () => void,
-) {
+function providerFactory<T extends Hub>(Context: Context<T>) {
   const Provider = ({
     url,
     connectEnabled = true,
@@ -37,8 +32,6 @@ function providerFactory<T extends Hub>(
       Context.connection = connection;
 
       async function checkForStart() {
-        checkExpectedSignalRMessages();
-
         if (!isConnectionConnecting(connection)) {
           try {
             await connection.start();
