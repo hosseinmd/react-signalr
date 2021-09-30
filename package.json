@@ -1,6 +1,6 @@
 {
   "name": "react-signalr",
-  "version": "0.1.2-bata",
+  "version": "0.1.2-beta2",
   "description": "React-signalr is a tools for using signalr web socket in react/react-native apps",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
