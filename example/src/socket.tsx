@@ -50,7 +50,7 @@ function Todo() {
       <h3>React socket.io</h3>
       <button
         onClick={() => {
-          SocketContext.send(ChatOperationsNames.StartWorkAsync, {
+          SocketContext.invoke(ChatOperationsNames.StartWorkAsync, {
             firstName: "mohammad",
             lastName: "heydari",
             //@ts-ignore

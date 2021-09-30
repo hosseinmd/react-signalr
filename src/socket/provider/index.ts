@@ -44,7 +44,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         },
         ...rest,
       });
-      console.log({ connection });
+
       Context.connection = connection;
       let lastConnectionSentState: number | null =
         Number(jsCookie.get(KEY_LAST_CONNECTION_TIME)) || null;

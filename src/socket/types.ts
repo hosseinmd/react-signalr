@@ -6,7 +6,7 @@ import { ProviderProps } from "./provider";
 export interface Context<T extends Hub> {
   Provider: (Props: ProviderProps) => JSX.Element;
   connection: Socket<DefaultEventsMap, DefaultEventsMap> | null;
-  send: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
+  invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
     methodName: E,
     ...args: C
   ) => void;

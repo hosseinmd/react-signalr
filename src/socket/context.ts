@@ -10,7 +10,7 @@ function createSocketContext<T extends Hub>() {
   const context: Context<T> = {
     connection: null,
     useSocketEffect: null as any, // Assigned after context
-    send: (methodName: string, ...args: any[]) => {
+    invoke: (methodName: string, ...args: any[]) => {
       hermes.send(SOCEKT_IO_SEND, { methodName, args }, true);
     },
     Provider: null as any, // just for ts ignore
