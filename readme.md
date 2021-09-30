@@ -7,6 +7,7 @@
 ## react-signalr
 
 Supported microsoft/signalR version 5 and later
+Supported Socket.io
 
 Features
 
@@ -31,10 +32,8 @@ create a signalr context,
 ```js
 import { createSignalRContext } from "react-signalr";
 
-const SignalRContext = createSignalRContext<"message"|"status">(
-  ["message","status"],
-);
-
+const SignalRContext = createSignalRContext();
+// or createSocketContext for socket.io
 
 const App = () => {
   const { token } = StoreAuthentication.useState();

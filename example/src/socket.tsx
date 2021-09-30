@@ -20,20 +20,18 @@ function Todo() {
   const [message, setMessage] = useState("");
   const [date, setDate] = useState("");
 
-  SocketContext.useSignalREffect(
+  SocketContext.useSocketEffect(
     ChatCallbacksNames.startwork,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     (message) => {
       setMessage(JSON.stringify(message));
-      console.log(message, "ok");
     },
     [],
   );
-  SocketContext.useSignalREffect(
+  SocketContext.useSocketEffect(
     ChatCallbacksNames.hello,
     (message) => {
       setDate(JSON.stringify(message));
-      console.log(message, "ok");
     },
     [],
   );

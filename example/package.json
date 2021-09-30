@@ -5,6 +5,7 @@
   "scripts": {
     "run-hub": "cd ./signalr && dotnet run cd ../",
     "start": "cd ../ && yarn build && cd ./example && react-app-rewired start",
+    "run-socket": "node socket/server.js",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
