@@ -30,6 +30,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
+      //@ts-ignore
+      Context.reOn();
 
       async function checkForStart() {
         if (!isConnectionConnecting(connection)) {

@@ -1,5 +1,6 @@
 import { HubConnectionState } from "@microsoft/signalr";
 import hermes from "hermes-channel";
+import { removeDuplicates } from "../utils";
 import { createUseSignalREffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
@@ -56,12 +57,6 @@ function createSignalRContext<T extends Hub>() {
   });
 
   return context;
-}
-
-function removeDuplicates(arr: string[]) {
-  const s = new Set(arr);
-  const it = s.values();
-  return Array.from(it);
 }
 
 export { createSignalRContext };

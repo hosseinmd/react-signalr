@@ -32,6 +32,9 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
       Context.connection = connection;
 
+      //@ts-ignore
+      Context.reOn();
+
       async function checkForStart() {
         if (!isConnectionConnecting(connection)) {
           try {

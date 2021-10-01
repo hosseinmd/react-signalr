@@ -1,4 +1,5 @@
 import hermes from "hermes-channel";
+import { removeDuplicates } from "../utils";
 import { createUseSocketEffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
@@ -31,6 +32,16 @@ function createSocketContext<T extends Hub>() {
       if (!events.includes(event)) {
         context.connection?.off(event);
       }
+    },
+    //@ts-ignore
+    reOn: () => {
+      const uniqueEvents = removeDuplicates(events as string[]);
+
+      uniqueEvents.forEach((event) => {
+        context.connection?.on(event, (...message: any) => {
+          hermes.send(event, message, true);
+        });
+      });
     },
   };
 
