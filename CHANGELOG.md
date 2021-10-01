@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/hosseinmd/react-signalr/compare/v0.1.3...v0.1.5) (2021-10-01)
+
+
+### Bug Fixes
+
+* on to reconnected ([b4a9a4c](https://github.com/hosseinmd/react-signalr/commit/b4a9a4c5affab7fa8da702c2a7268fc0892bef1a))
+* reconnection  listen ([b683f41](https://github.com/hosseinmd/react-signalr/commit/b683f41d16c38094df98e3fe57d0edb8a689898f))
+
 ### [0.1.3](https://github.com/hosseinmd/react-signalr/compare/v0.1.2...v0.1.3) (2021-10-01)
 
 
