@@ -21,9 +21,9 @@ function usePropRef(prop: any) {
 
 function createConnection(
   url: string,
-  transportType: Partial<ManagerOptions & SocketOptions> | undefined,
+  opts: Partial<ManagerOptions & SocketOptions> | undefined,
 ) {
-  const connectionBuilder = io(url, transportType);
+  const connectionBuilder = io(url, opts);
 
   const connection = connectionBuilder;
   return connection;
