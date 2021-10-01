@@ -17,7 +17,7 @@ function createSocketContext<T extends Hub>() {
     Provider: null as any, // just for ts ignore
     on: (event: string) => {
       if (!events.includes(event)) {
-        context.connection?.on(event, (...message: any) => {
+        context.connection?.on(event, (message: any) => {
           hermes.send(event, message, true);
         });
       }
@@ -38,7 +38,7 @@ function createSocketContext<T extends Hub>() {
       const uniqueEvents = removeDuplicates(events as string[]);
 
       uniqueEvents.forEach((event) => {
-        context.connection?.on(event, (...message: any) => {
+        context.connection?.on(event, (message: any) => {
           hermes.send(event, message, true);
         });
       });
@@ -51,7 +51,7 @@ function createSocketContext<T extends Hub>() {
 
   hermes.on(SOCEKT_IO_SEND, (data) => {
     if (context.connection?.connected) {
-      context.connection.send(data.methodName, ...data.args);
+      context.connection.emit(data.methodName, ...data.args);
     }
   });
 
