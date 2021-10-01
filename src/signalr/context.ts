@@ -33,6 +33,16 @@ function createSignalRContext<T extends Hub>() {
         context.connection?.off(event);
       }
     },
+    //@ts-ignore
+    reOn: () => {
+      const uniqueEvents = removeDuplicates(events);
+
+      uniqueEvents.forEach((event) => {
+        context.connection?.on(event, (...message: any) => {
+          hermes.send(event, message, true);
+        });
+      });
+    },
   };
 
   context.Provider = providerFactory(context);
@@ -46,6 +56,12 @@ function createSignalRContext<T extends Hub>() {
   });
 
   return context;
+}
+
+function removeDuplicates(arr: string[]) {
+  const s = new Set(arr);
+  const it = s.values();
+  return Array.from(it);
 }
 
 export { createSignalRContext };

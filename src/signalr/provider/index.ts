@@ -41,6 +41,10 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       connection.onreconnecting((error) => onErrorRef.current?.(error));
 
       Context.connection = connection;
+
+      //@ts-ignore
+      Context.reOn();
+
       let lastConnectionSentState: number | null =
         Number(jsCookie.get(KEY_LAST_CONNECTION_TIME)) || null;
       let anotherTabConnectionId: string | null = null;
