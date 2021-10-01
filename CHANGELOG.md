@@ -4,44 +4,28 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.1.6](https://github.com/hosseinmd/react-signalr/compare/v0.1.5...v0.1.6) (2021-10-01)
 
-
 ### Bug Fixes
 
-* socket args ([5948572](https://github.com/hosseinmd/react-signalr/commit/5948572f4ab317e0d0b3f3089ebaa538551fe333))
-
-### [0.1.5](https://github.com/hosseinmd/react-signalr/compare/v0.1.3...v0.1.5) (2021-10-01)
-
-
-### Bug Fixes
-
-* on to reconnected ([b4a9a4c](https://github.com/hosseinmd/react-signalr/commit/b4a9a4c5affab7fa8da702c2a7268fc0892bef1a))
-* reconnection  listen ([b683f41](https://github.com/hosseinmd/react-signalr/commit/b683f41d16c38094df98e3fe57d0edb8a689898f))
-
-### [0.1.3](https://github.com/hosseinmd/react-signalr/compare/v0.1.2...v0.1.3) (2021-10-01)
-
-
-### Bug Fixes
-
-* socket provider types ([1da8950](https://github.com/hosseinmd/react-signalr/commit/1da8950755d6f108b36873c3292f99f3aa0f8348))
+- socket args ([5948572](https://github.com/hosseinmd/react-signalr/commit/5948572f4ab317e0d0b3f3089ebaa538551fe333))
+- on to reconnected ([b4a9a4c](https://github.com/hosseinmd/react-signalr/commit/b4a9a4c5affab7fa8da702c2a7268fc0892bef1a))
+- reconnection listen ([b683f41](https://github.com/hosseinmd/react-signalr/commit/b683f41d16c38094df98e3fe57d0edb8a689898f))
+- socket provider types ([1da8950](https://github.com/hosseinmd/react-signalr/commit/1da8950755d6f108b36873c3292f99f3aa0f8348))
 
 ### [0.1.2](https://github.com/hosseinmd/react-signalr/compare/v0.1.1...v0.1.2) (2021-09-30)
 
-
 ### Features
 
-* implements socket.io ([#4](https://github.com/hosseinmd/react-signalr/issues/4)) ([c2dbd70](https://github.com/hosseinmd/react-signalr/commit/c2dbd704bc24a13a72141421cd29485ea897ac95))
-
+- implements socket.io ([#4](https://github.com/hosseinmd/react-signalr/issues/4)) ([c2dbd70](https://github.com/hosseinmd/react-signalr/commit/c2dbd704bc24a13a72141421cd29485ea897ac95))
 
 ### Bug Fixes
 
-* few missed socket context ([eb6989b](https://github.com/hosseinmd/react-signalr/commit/eb6989ba34b0ff0e8bd0072f18713fffd5eb66c8))
+- few missed socket context ([eb6989b](https://github.com/hosseinmd/react-signalr/commit/eb6989ba34b0ff0e8bd0072f18713fffd5eb66c8))
 
 ### [0.1.1](https://github.com/hosseinmd/react-signalr/compare/v0.1.0...v0.1.1) (2021-07-03)
 
-
 ### Bug Fixes
 
-* get unlimited arguments  ([5fa0168](https://github.com/hosseinmd/react-signalr/commit/5fa0168d2006c6deb22d22176529fc034c8298b1))
+- get unlimited arguments ([5fa0168](https://github.com/hosseinmd/react-signalr/commit/5fa0168d2006c6deb22d22176529fc034c8298b1))
 
 ### [0.1.0](https://github.com/hosseinmd/react-signalr/compare/v0.0.10...v0.0.11) (2021-06-02)
 
