@@ -11,7 +11,7 @@ function createUseSocketEffect<T extends Hub>(context: Context<T>) {
     useEffect(() => {
       let _events: string[];
       function _callback(args: any[]) {
-        callback(...args);
+        callback(...(Array.isArray(args) ? args : [args]));
       }
 
       // backward compatible array should remove
