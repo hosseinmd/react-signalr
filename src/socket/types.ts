@@ -1,6 +1,6 @@
 import { DependencyList } from "react";
 import { Socket } from "socket.io-client";
-import { DefaultEventsMap } from "socket.io-client/build/typed-events";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { ProviderProps } from "./provider";
 
 export interface Context<T extends Hub> {
