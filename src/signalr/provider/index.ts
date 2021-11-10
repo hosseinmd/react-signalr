@@ -20,8 +20,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     children,
     dependencies = [],
     accessTokenFactory,
-    /** Just for web */
-    isOnTabConnecting = true,
+    /** Just for web. Default is true */
+    shareConnectionBetweenTab = false,
     onError,
     ...rest
   }: ProviderProps) => {
@@ -81,7 +81,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           !isConnectionConnecting(connection)
         ) {
           try {
-            if (isOnTabConnecting) {
+            if (shareConnectionBetweenTab) {
               shoutConnected(connection.connectionId);
 
               function syncWithTabs() {
@@ -119,7 +119,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
        * anotherTabConnectionId to other tabs
        */
       function onBeforeunload() {
-        if (isConnectionConnecting(connection) && isOnTabConnecting) {
+        if (isConnectionConnecting(connection) && shareConnectionBetweenTab) {
           shoutConnected(null);
 
           clearInterval(sentInterval);
@@ -133,12 +133,14 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
       clear.current = () => {
-        if (isOnTabConnecting) {
+        if (shareConnectionBetweenTab) {
           clearInterval(checkInterval);
           sentInterval && clearInterval(sentInterval);
           connection.stop();
           hermes.off(IS_SIGNAL_R_CONNECTED);
+          return;
         }
+        connection.stop();
         /** RemoveEventListener is not exist in react-native */
         window?.removeEventListener?.("beforeunload", onBeforeunload);
       };

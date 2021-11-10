@@ -8,5 +8,5 @@ export interface ProviderProps extends IHttpConnectionOptions {
   onError?: (error?: Error) => Promise<void>;
   url: string;
   children: JSX.Element;
-  isOnTabConnecting?: boolean;
+  shareConnectionBetweenTab?: boolean;
 }

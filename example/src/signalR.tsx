@@ -40,7 +40,7 @@ function Todo() {
         birthDate: new Date().toISOString(),
       },
     );
-    console.log({ response }, "ok")
+    console.log({ response }, "ok");
   }
 
   return (
