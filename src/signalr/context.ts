@@ -32,7 +32,6 @@ function createSignalRContext<T extends Hub>() {
           hermes.send(event, message, true);
         });
       }
-
       events.push(event);
     },
     off: (event: string) => {

@@ -20,6 +20,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     children,
     dependencies = [],
     accessTokenFactory,
+    /** Just for web */
+    isOnTabConnecting = true,
     onError,
     ...rest
   }: ProviderProps) => {
@@ -79,27 +81,30 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           !isConnectionConnecting(connection)
         ) {
           try {
-            shoutConnected(connection.connectionId);
+            if (isOnTabConnecting) {
+              shoutConnected(connection.connectionId);
 
-            await connection.start();
+              function syncWithTabs() {
+                if (anotherTabConnectionId) {
+                  clearInterval(sentInterval);
+                  connection.stop();
 
-            function syncWithTabs() {
-              if (anotherTabConnectionId) {
-                clearInterval(sentInterval);
-                connection.stop();
+                  return;
+                }
 
-                return;
+                shoutConnected(connection.connectionId);
               }
 
-              shoutConnected(connection.connectionId);
+              sentInterval = setInterval(syncWithTabs, 4000);
+
+              syncWithTabs();
             }
-
-            sentInterval = setInterval(syncWithTabs, 4000);
-
-            syncWithTabs();
+            await connection.start();
           } catch (err) {
             console.log(err);
-            clearInterval(sentInterval);
+            if (sentInterval) {
+              clearInterval(sentInterval);
+            }
             onErrorRef.current?.(err);
           }
         }
@@ -114,24 +119,26 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
        * anotherTabConnectionId to other tabs
        */
       function onBeforeunload() {
-        if (isConnectionConnecting(connection)) {
+        if (isConnectionConnecting(connection) && isOnTabConnecting) {
           shoutConnected(null);
 
           clearInterval(sentInterval);
           connection.stop();
           return;
         }
+        connection.stop();
       }
 
       /** AddEventListener is not exist in react-native */
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
       clear.current = () => {
-        clearInterval(checkInterval);
-        sentInterval && clearInterval(sentInterval);
-        connection.stop();
-        hermes.off(IS_SIGNAL_R_CONNECTED);
-
+        if (isOnTabConnecting) {
+          clearInterval(checkInterval);
+          sentInterval && clearInterval(sentInterval);
+          connection.stop();
+          hermes.off(IS_SIGNAL_R_CONNECTED);
+        }
         /** RemoveEventListener is not exist in react-native */
         window?.removeEventListener?.("beforeunload", onBeforeunload);
       };
