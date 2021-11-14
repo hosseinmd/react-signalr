@@ -7,17 +7,22 @@ import { Context, Hub } from "./types";
 import { v4 as uuid } from "uuid";
 
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
-function createSignalRContext<T extends Hub>() {
+function createSignalRContext<T extends Hub>({
+  shareConnectionBetweenTab = false,
+}: {
+  shareConnectionBetweenTab: boolean | null;
+}) {
   const events: T["callbacksName"][] = [];
   const context: Context<T> = {
     connection: null,
     useSignalREffect: null as any, // Assigned after context
+    shareConnectionBetweenTab,
     invoke: (methodName: string, ...args: any[]) => {
       const SIGNAL_R_RESPONSE = uuid();
       hermes.send(
         SIGNAL_R_INVOKE,
         { methodName, args, callbackResponse: SIGNAL_R_RESPONSE },
-        true,
+        shareConnectionBetweenTab ? "all" : "current",
       );
       return new Promise((resolve) => {
         hermes.on(SIGNAL_R_RESPONSE, (data) => {
@@ -29,7 +34,11 @@ function createSignalRContext<T extends Hub>() {
     on: (event: string) => {
       if (!events.includes(event)) {
         context.connection?.on(event, (...message: any) => {
-          hermes.send(event, message, true);
+          hermes.send(
+            event,
+            message,
+            shareConnectionBetweenTab ? "all" : "current",
+          );
         });
       }
       events.push(event);
@@ -49,7 +58,11 @@ function createSignalRContext<T extends Hub>() {
 
       uniqueEvents.forEach((event) => {
         context.connection?.on(event, (...message: any) => {
-          hermes.send(event, message, true);
+          hermes.send(
+            event,
+            message,
+            shareConnectionBetweenTab ? "all" : "current",
+          );
         });
       });
     },
@@ -66,7 +79,11 @@ function createSignalRContext<T extends Hub>() {
       data.methodName,
       ...data.args,
     );
-    hermes.send(data.callbackResponse, response, true);
+    hermes.send(
+      data.callbackResponse,
+      response,
+      shareConnectionBetweenTab ? "all" : "current",
+    );
   }
 
   context.useSignalREffect = createUseSignalREffect(context);

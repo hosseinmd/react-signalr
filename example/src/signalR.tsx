@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { createSignalRContext } from "../../lib";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
-const SignalRContext = createSignalRContext<Chat>();
+const SignalRContext = createSignalRContext<Chat>({
+  shareConnectionBetweenTab: false,
+});
 
 const SignalR = () => {
   return (

@@ -20,8 +20,6 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     children,
     dependencies = [],
     accessTokenFactory,
-    /** Just for web. Default is true */
-    shareConnectionBetweenTab = false,
     onError,
     ...rest
   }: ProviderProps) => {
@@ -81,9 +79,11 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           !isConnectionConnecting(connection)
         ) {
           try {
-            if (shareConnectionBetweenTab) {
+            if (Context.shareConnectionBetweenTab) {
               shoutConnected(connection.connectionId);
-
+            }
+            await connection.start();
+            if (Context.shareConnectionBetweenTab) {
               function syncWithTabs() {
                 if (anotherTabConnectionId) {
                   clearInterval(sentInterval);
@@ -99,7 +99,6 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
               syncWithTabs();
             }
-            await connection.start();
           } catch (err) {
             console.log(err);
             if (sentInterval) {
@@ -119,26 +118,23 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
        * anotherTabConnectionId to other tabs
        */
       function onBeforeunload() {
-        if (isConnectionConnecting(connection) && shareConnectionBetweenTab) {
-          shoutConnected(null);
-
-          clearInterval(sentInterval);
+        if (isConnectionConnecting(connection)) {
+          if (Context.shareConnectionBetweenTab) {
+            shoutConnected(null);
+            clearInterval(sentInterval);
+          }
           connection.stop();
-          return;
         }
-        connection.stop();
       }
 
       /** AddEventListener is not exist in react-native */
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
       clear.current = () => {
-        if (shareConnectionBetweenTab) {
+        if (Context.shareConnectionBetweenTab) {
           clearInterval(checkInterval);
           sentInterval && clearInterval(sentInterval);
-          connection.stop();
           hermes.off(IS_SIGNAL_R_CONNECTED);
-          return;
         }
         connection.stop();
         /** RemoveEventListener is not exist in react-native */

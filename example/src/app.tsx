@@ -3,7 +3,7 @@ import { SignalR } from "./signalR";
 import { Socket } from "./socket";
 
 const App = () => {
-  const [isSignalR, setIsSignalR] = useState<boolean>();
+  const [isSignalR, setIsSignalR] = useState<boolean>(true);
   return (
     <div>
       <button onClick={() => setIsSignalR(true)}>SignalR</button>

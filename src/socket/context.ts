@@ -12,13 +12,13 @@ function createSocketContext<T extends Hub>() {
     connection: null,
     useSocketEffect: null as any, // Assigned after context
     invoke: (methodName: string, ...args: any[]) => {
-      hermes.send(SOCEKT_IO_SEND, { methodName, args }, true);
+      hermes.send(SOCEKT_IO_SEND, { methodName, args }, "all");
     },
     Provider: null as any, // just for ts ignore
     on: (event: string) => {
       if (!events.includes(event)) {
         context.connection?.on(event, (message: any) => {
-          hermes.send(event, message, true);
+          hermes.send(event, message, "all");
         });
       }
 
@@ -39,7 +39,7 @@ function createSocketContext<T extends Hub>() {
 
       uniqueEvents.forEach((event) => {
         context.connection?.on(event, (message: any) => {
-          hermes.send(event, message, true);
+          hermes.send(event, message, "all");
         });
       });
     },
