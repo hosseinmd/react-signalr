@@ -101,9 +101,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
             }
           } catch (err) {
             console.log(err);
-            if (sentInterval) {
-              clearInterval(sentInterval);
-            }
+            sentInterval && clearInterval(sentInterval);
             onErrorRef.current?.(err);
           }
         }

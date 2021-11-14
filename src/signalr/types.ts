@@ -5,7 +5,7 @@ import { ProviderProps } from "./provider";
 export interface Context<T extends Hub> {
   Provider: (Props: ProviderProps) => JSX.Element;
   connection: HubConnection | null;
-  shareConnectionBetweenTab: boolean | null;
+  shareConnectionBetweenTab: boolean;
   invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
     methodName: E,
     ...args: C

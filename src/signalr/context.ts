@@ -1,28 +1,26 @@
 import { HubConnectionState } from "@microsoft/signalr";
 import hermes from "hermes-channel";
-import { removeDuplicates } from "../utils";
+import { removeDuplicates, sendWithHermes } from "../utils";
 import { createUseSignalREffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
 import { v4 as uuid } from "uuid";
 
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
-function createSignalRContext<T extends Hub>({
-  shareConnectionBetweenTab = false,
-}: {
-  shareConnectionBetweenTab: boolean | null;
+function createSignalRContext<T extends Hub>(options?: {
+  shareConnectionBetweenTab: boolean;
 }) {
   const events: T["callbacksName"][] = [];
   const context: Context<T> = {
     connection: null,
     useSignalREffect: null as any, // Assigned after context
-    shareConnectionBetweenTab,
+    shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
     invoke: (methodName: string, ...args: any[]) => {
       const SIGNAL_R_RESPONSE = uuid();
-      hermes.send(
+      sendWithHermes(
         SIGNAL_R_INVOKE,
         { methodName, args, callbackResponse: SIGNAL_R_RESPONSE },
-        shareConnectionBetweenTab ? "all" : "current",
+        context.shareConnectionBetweenTab,
       );
       return new Promise((resolve) => {
         hermes.on(SIGNAL_R_RESPONSE, (data) => {
@@ -34,11 +32,7 @@ function createSignalRContext<T extends Hub>({
     on: (event: string) => {
       if (!events.includes(event)) {
         context.connection?.on(event, (...message: any) => {
-          hermes.send(
-            event,
-            message,
-            shareConnectionBetweenTab ? "all" : "current",
-          );
+          sendWithHermes(event, message, context.shareConnectionBetweenTab);
         });
       }
       events.push(event);
@@ -58,11 +52,7 @@ function createSignalRContext<T extends Hub>({
 
       uniqueEvents.forEach((event) => {
         context.connection?.on(event, (...message: any) => {
-          hermes.send(
-            event,
-            message,
-            shareConnectionBetweenTab ? "all" : "current",
-          );
+          sendWithHermes(event, message, context.shareConnectionBetweenTab);
         });
       });
     },
@@ -79,10 +69,10 @@ function createSignalRContext<T extends Hub>({
       data.methodName,
       ...data.args,
     );
-    hermes.send(
+    sendWithHermes(
       data.callbackResponse,
       response,
-      shareConnectionBetweenTab ? "all" : "current",
+      context.shareConnectionBetweenTab,
     );
   }
 
