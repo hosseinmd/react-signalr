@@ -1,24 +1,31 @@
 import hermes from "hermes-channel";
-import { removeDuplicates } from "../utils";
+import { removeDuplicates, sendWithHermes } from "../utils";
 import { createUseSocketEffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
 
 const SOCEKT_IO_SEND = "SOCEKT_IO_SEND";
 
-function createSocketContext<T extends Hub>() {
+function createSocketContext<T extends Hub>(options?: {
+  shareConnectionBetweenTab: boolean;
+}) {
   const events: (keyof T["callbacks"])[] = [];
   const context: Context<T> = {
     connection: null,
     useSocketEffect: null as any, // Assigned after context
+    shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
     invoke: (methodName: string, ...args: any[]) => {
-      hermes.send(SOCEKT_IO_SEND, { methodName, args }, "all");
+      sendWithHermes(
+        SOCEKT_IO_SEND,
+        { methodName, args },
+        context.shareConnectionBetweenTab,
+      );
     },
     Provider: null as any, // just for ts ignore
     on: (event: string) => {
       if (!events.includes(event)) {
         context.connection?.on(event, (message: any) => {
-          hermes.send(event, message, "all");
+          sendWithHermes(event, message, context.shareConnectionBetweenTab);
         });
       }
 
@@ -39,7 +46,7 @@ function createSocketContext<T extends Hub>() {
 
       uniqueEvents.forEach((event) => {
         context.connection?.on(event, (message: any) => {
-          hermes.send(event, message, "all");
+          sendWithHermes(event, message, context.shareConnectionBetweenTab);
         });
       });
     },

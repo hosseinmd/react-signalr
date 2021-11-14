@@ -3,7 +3,7 @@ import { createSignalRContext } from "../../lib";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
 const SignalRContext = createSignalRContext<Chat>({
-  shareConnectionBetweenTab: false,
+  shareConnectionBetweenTab: true,
 });
 
 const SignalR = () => {

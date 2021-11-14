@@ -84,27 +84,29 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           !isConnectionConnecting(connection)
         ) {
           try {
-            shoutConnected(connection.id);
-
-            await connection.open();
-
-            function syncWithTabs() {
-              if (anotherTabConnectionId) {
-                clearInterval(sentInterval);
-                connection.close();
-
-                return;
-              }
-
+            if (Context.shareConnectionBetweenTab) {
               shoutConnected(connection.id);
             }
+            await connection.open();
+            if (Context.shareConnectionBetweenTab) {
+              function syncWithTabs() {
+                if (anotherTabConnectionId) {
+                  clearInterval(sentInterval);
+                  connection.close();
 
-            sentInterval = setInterval(syncWithTabs, 4000);
+                  return;
+                }
 
-            syncWithTabs();
+                shoutConnected(connection.id);
+              }
+
+              sentInterval = setInterval(syncWithTabs, 4000);
+
+              syncWithTabs();
+            }
           } catch (err) {
             console.log(err);
-            clearInterval(sentInterval);
+            sentInterval && clearInterval(sentInterval);
             onErrorRef.current?.(err);
           }
         }
@@ -120,9 +122,11 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
        */
       function onBeforeunload() {
         if (isConnectionConnecting(connection)) {
-          shoutConnected(null);
+          if (Context.shareConnectionBetweenTab) {
+            shoutConnected(null);
 
-          clearInterval(sentInterval);
+            clearInterval(sentInterval);
+          }
           connection.disconnect();
           return;
         }
@@ -132,11 +136,12 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
       clear.current = () => {
-        clearInterval(checkInterval);
-        sentInterval && clearInterval(sentInterval);
+        if (Context.shareConnectionBetweenTab) {
+          clearInterval(checkInterval);
+          sentInterval && clearInterval(sentInterval);
+          hermes.off(IS_SOCKET_CONNECTED);
+        }
         connection.disconnect();
-        hermes.off(IS_SOCKET_CONNECTED);
-
         /** RemoveEventListener is not exist in react-native */
         window?.removeEventListener?.("beforeunload", onBeforeunload);
       };
