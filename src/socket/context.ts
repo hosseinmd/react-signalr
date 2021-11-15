@@ -3,6 +3,7 @@ import { removeDuplicates, sendWithHermes } from "../utils";
 import { createUseSocketEffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
+import { providerNativeFactory } from "./provider/providerNativeFactory";
 
 const SOCEKT_IO_SEND = "SOCEKT_IO_SEND";
 
@@ -52,7 +53,10 @@ function createSocketContext<T extends Hub>(options?: {
     },
   };
 
-  context.Provider = providerFactory(context);
+  context.Provider = context.shareConnectionBetweenTab
+    ? providerFactory(context)
+    : providerNativeFactory(context);
+  context;
 
   context.useSocketEffect = createUseSocketEffect(context);
 
