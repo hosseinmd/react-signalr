@@ -55,7 +55,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       let anotherTabConnectionId: string | null = null;
 
       /** If another tab connected to signalR we will receive this event */
-      hermes.on(IS_SOCKET_CONNECTED, (_anotherTabConnectionId: any) => {
+      hermes.on(IS_SOCKET_CONNECTED, (_anotherTabConnectionId) => {
         // connected tab will send empty _anotherTabConnectionId before close
         if (!_anotherTabConnectionId) {
           lastConnectionSentState = null;
