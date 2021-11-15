@@ -5,6 +5,7 @@ import { createUseSignalREffect } from "./hooks";
 import { providerFactory } from "./provider";
 import { Context, Hub } from "./types";
 import { v4 as uuid } from "uuid";
+import { providerNativeFactory } from "./provider/providerNativeFactory";
 
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 function createSignalRContext<T extends Hub>(options?: {
@@ -58,7 +59,9 @@ function createSignalRContext<T extends Hub>(options?: {
     },
   };
 
-  context.Provider = providerFactory(context);
+  context.Provider = context.shareConnectionBetweenTab
+    ? providerFactory(context)
+    : providerNativeFactory(context);
 
   async function invoke(data: {
     methodName: string;
