@@ -14,7 +14,7 @@ export type ChatOperations = {
 
 export enum ChatCallbacksNames {
   hello = "hello",
-  startwork = "startwork",
+  startwork = "Startwork",
   stopwork = "stopwork",
 }
 

@@ -6,10 +6,13 @@ namespace Example.Hubs
 {
     public class ChatHub : AppHubBase<IChatClient> , IHuB
     {
-        public async Task StartWorkAsync(StartWorkVm message)
+        public async Task<string> StartWorkAsync(StartWorkVm message)
         {
             await Clients.All.StartWorkAsync(message);
+
+            return "Server Response";
         }
+
         public async Task StopWork(StopWorkVm message)
         {
             await Clients.All.StopWorkAsync(message);

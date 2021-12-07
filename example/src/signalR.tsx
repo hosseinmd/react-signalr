@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { createSignalRContext } from "../../lib";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
-const SignalRContext = createSignalRContext<Chat>();
+const SignalRContext = createSignalRContext<Chat>({
+  shareConnectionBetweenTab: false,
+});
 
 const SignalR = () => {
   return (
@@ -19,7 +21,6 @@ const SignalR = () => {
 
 function Todo() {
   const [message, setMessage] = useState("");
-
   SignalRContext.useSignalREffect(
     ChatCallbacksNames.startwork,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -29,6 +30,20 @@ function Todo() {
     },
     [],
   );
+
+  async function invoke() {
+    const response = await SignalRContext.invoke(
+      ChatOperationsNames.StartWorkAsync,
+      {
+        firstName: "h",
+        lastName: "m",
+        //@ts-ignore
+        JobType: 1,
+        birthDate: new Date().toISOString(),
+      },
+    );
+    console.log({ response }, "ok");
+  }
 
   return (
     <div
@@ -40,22 +55,9 @@ function Todo() {
       }}
     >
       <h3>React signalR</h3>
-      <button
-        onClick={() => {
-          SignalRContext.invoke(ChatOperationsNames.StartWorkAsync, {
-            firstName: "h",
-            lastName: "m",
-            //@ts-ignore
-            JobType: 1,
-            birthDate: new Date().toISOString(),
-          });
-        }}
-      >
-        Invoke signalR
-      </button>
+      <button onClick={() => invoke()}>Invoke signalR</button>
       <p>{message}</p>
     </div>
   );
 }
-
 export { SignalR };

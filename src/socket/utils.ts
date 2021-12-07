@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
-import { DefaultEventsMap } from "socket.io-client/build/typed-events";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 const __DEV__ = process.env.NODE_ENV !== "production";
 

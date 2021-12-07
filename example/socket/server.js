@@ -19,9 +19,9 @@ io.on("connection", (socket) => {
   if (interval) {
     clearInterval(interval);
   }
-  socket.on("message", (event, message) => {
-    console.log({ event, message });
-    socket.emit("startwork", message);
+  socket.on("StartWorkAsync", (event) => {
+    console.log({ event });
+    socket.emit("Startwork", event);
   });
   interval = setInterval(() => getApiAndEmit(socket), 1000);
   socket.on("disconnect", () => {

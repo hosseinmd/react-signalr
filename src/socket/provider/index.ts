@@ -85,9 +85,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         ) {
           try {
             shoutConnected(connection.id);
-
             await connection.open();
-
             function syncWithTabs() {
               if (anotherTabConnectionId) {
                 clearInterval(sentInterval);
@@ -104,7 +102,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
             syncWithTabs();
           } catch (err) {
             console.log(err);
-            clearInterval(sentInterval);
+            sentInterval && clearInterval(sentInterval);
             onErrorRef.current?.(err);
           }
         }
@@ -121,7 +119,6 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       function onBeforeunload() {
         if (isConnectionConnecting(connection)) {
           shoutConnected(null);
-
           clearInterval(sentInterval);
           connection.disconnect();
           return;
@@ -136,7 +133,6 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         sentInterval && clearInterval(sentInterval);
         connection.disconnect();
         hermes.off(IS_SOCKET_CONNECTED);
-
         /** RemoveEventListener is not exist in react-native */
         window?.removeEventListener?.("beforeunload", onBeforeunload);
       };
