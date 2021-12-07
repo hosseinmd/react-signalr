@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.0](https://github.com/hosseinmd/react-signalr/compare/v0.1.7...v0.1.8) (2021-12-07)
+
+### Features
+
+- disable Connection Between tabs (create connections for all tabs) ([#5](https://github.com/hosseinmd/react-signalr/issues/5)) ([265b167](https://github.com/hosseinmd/react-signalr/commit/265b1676484b1d3e84b052bf5eec29571456c938))
+
 ### [0.1.6](https://github.com/hosseinmd/react-signalr/compare/v0.1.5...v0.1.6) (2021-10-01)
 
 ### Bug Fixes
