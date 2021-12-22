@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/hosseinmd/react-signalr/compare/v0.2.1...v0.2.2) (2021-12-22)
+
+
+### Bug Fixes
+
+* add uuid react-native-get-random-values ([5cda491](https://github.com/hosseinmd/react-signalr/commit/5cda491650ec93215a972f2a7f36c916a69ab601))
+
 ### [0.2.1](https://github.com/hosseinmd/react-signalr/compare/v0.1.7...v0.2.1) (2021-12-22)
 
 
