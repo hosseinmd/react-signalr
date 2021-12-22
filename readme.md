@@ -70,3 +70,7 @@ const Comp = () => {
   return null;
 };
 ```
+
+### React-Native
+
+Install `react-native-get-random-values`
