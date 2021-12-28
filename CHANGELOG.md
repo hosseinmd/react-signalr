@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/hosseinmd/react-signalr/compare/v0.2.2...v0.2.3) (2021-12-28)
+
+
+### Bug Fixes
+
+* update hermes-channel ([5fe891b](https://github.com/hosseinmd/react-signalr/commit/5fe891b2dce33253537e5892d91e3c3c703361d0))
+
 ### [0.2.2](https://github.com/hosseinmd/react-signalr/compare/v0.2.1...v0.2.2) (2021-12-22)
 
 
