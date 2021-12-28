@@ -1,6 +1,6 @@
 {
   "name": "react-signalr",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "React-signalr is a tools for using signalr web socket in react/react-native apps",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -40,13 +40,13 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.1",
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.15",
     "@types/js-cookie": "^2.2.6",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "babel-jest": "^26.6.3",
