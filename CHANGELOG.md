@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/hosseinmd/react-signalr/compare/v0.2.4...v0.2.5) (2022-01-27)
+
+
+### Features
+
+* implement webSocket ([00c31a8](https://github.com/hosseinmd/react-signalr/commit/00c31a8152fe3513a07fe1a6d6a9ed1e64a61455))
+
 ### [0.2.3](https://github.com/hosseinmd/react-signalr/compare/v0.2.2...v0.2.3) (2021-12-28)
 
 
