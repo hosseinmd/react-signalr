@@ -15,9 +15,10 @@ function createConnection(
   {
     url,
     onOpen,
+    onClose,
     onErrorRef,
     logger,
-  }: Pick<ProviderProps, "url" | "onOpen" | "logger"> & {
+  }: Pick<ProviderProps, "url" | "onOpen" | "logger" | "onClose"> & {
     onErrorRef: any;
   },
 ) {
@@ -39,6 +40,7 @@ function createConnection(
   };
 
   connection.onclose = (event) => {
+    onClose?.(event);
     logger?.log("webSocket closed", event);
   };
 

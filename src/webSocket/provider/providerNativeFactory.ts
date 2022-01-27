@@ -12,6 +12,7 @@ function providerNativeFactory(context: Context) {
     dependencies = [],
     onError,
     onOpen,
+    onClose,
     logger = console,
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
@@ -27,6 +28,7 @@ function providerNativeFactory(context: Context) {
         if (!isConnectionConnecting(context.connection)) {
           try {
             createConnection(context, {
+              onClose,
               onOpen,
               logger,
               url,

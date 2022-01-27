@@ -17,6 +17,7 @@ function providerFactory(context: Context) {
     dependencies = [],
     onError,
     onOpen,
+    onClose,
     logger = __DEV__ ? console : null,
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
@@ -78,6 +79,7 @@ function providerFactory(context: Context) {
         ) {
           try {
             createConnection(context, {
+              onClose,
               onOpen,
               logger,
               url,

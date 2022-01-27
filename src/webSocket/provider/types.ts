@@ -5,6 +5,7 @@ export interface ProviderProps {
   connectEnabled?: boolean;
   dependencies?: DependencyList;
   onError?: (error?: Event | Error) => Promise<void>;
+  onClose?: (error?: CloseEvent) => void;
   url: string;
   children: JSX.Element;
   onOpen?: (connection: WebSocket) => void;
