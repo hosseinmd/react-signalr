@@ -1,48 +1,40 @@
 import { useEffect, useRef, useState } from "react";
 import { usePropRef } from "../../utils";
-import { Context, Hub } from "../types";
+import { Context } from "../types";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 
-function providerNativeFactory<T extends Hub>(Context: Context<T>) {
+function providerNativeFactory(context: Context) {
   const Provider = ({
     url,
     connectEnabled = true,
     children,
     dependencies = [],
-    accessTokenFactory,
     onError,
-    ...rest
+    onOpen,
+    logger = console,
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
-    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
-    async function refreshConnection() {
+    function refreshConnection() {
       if (!connectEnabled) {
         return;
       }
 
-      const connection = createConnection(url, {
-        extraHeaders: {
-          Authorization: (await accessTokenFactoryRef.current?.()) || "",
-        },
-        ...rest,
-      });
-
-      Context.connection = connection;
-
-      //@ts-ignore
-      Context.reOn();
-
       async function checkForStart() {
-        if (!isConnectionConnecting(connection)) {
+        if (!isConnectionConnecting(context.connection)) {
           try {
-            await connection.open();
+            createConnection(context, {
+              onOpen,
+              logger,
+              url,
+              onErrorRef,
+            });
           } catch (err) {
             console.log(err);
-            onErrorRef.current?.(err as Error);
+            onErrorRef.current?.(err as any);
           }
         }
       }
@@ -53,7 +45,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
 
       clear.current = () => {
         clearInterval(checkInterval);
-        connection.disconnect();
+        context.connection?.close();
       };
     }
 

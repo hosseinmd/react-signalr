@@ -6,6 +6,7 @@
     "run-hub": "cd ./signalr && dotnet run cd ../",
     "start": "cd ../ && yarn build && cd ./example && react-app-rewired start",
     "run-socket": "node socket/server.js",
+    "run-websocket": "node webSocket/server.js",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
@@ -22,6 +23,7 @@
     "express": "^4.17.1",
     "react-app-rewired": "^2.1.6",
     "socket.io": "^4.2.0",
+    "ws": "^8.4.2",
     "swagger-typescript": "^4.2.1",
     "url-loader": "^4.1.1"
   }

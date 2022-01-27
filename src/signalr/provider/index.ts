@@ -1,14 +1,10 @@
 import hermes from "hermes-channel";
 import { useEffect, useRef, useState } from "react";
 import jsCookie from "js-cookie";
-import {
-  createConnection,
-  isConnectionConnecting,
-  usePropRef,
-  __DEV__,
-} from "../utils";
+import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 import { Context, Hub } from "../types";
+import { usePropRef, __DEV__ } from "../../utils";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
@@ -73,6 +69,17 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       let sentInterval: any;
 
       async function checkForStart() {
+        function syncWithTabs() {
+          if (anotherTabConnectionId) {
+            clearInterval(sentInterval);
+            connection.stop();
+
+            return;
+          }
+
+          shoutConnected(connection.connectionId);
+        }
+
         if (
           (!lastConnectionSentState ||
             lastConnectionSentState < Date.now() - 5000) &&
@@ -81,16 +88,6 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           try {
             shoutConnected(connection.connectionId);
             await connection.start();
-            function syncWithTabs() {
-              if (anotherTabConnectionId) {
-                clearInterval(sentInterval);
-                connection.stop();
-
-                return;
-              }
-
-              shoutConnected(connection.connectionId);
-            }
 
             sentInterval = setInterval(syncWithTabs, 4000);
 
@@ -98,7 +95,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           } catch (err) {
             console.log(err);
             sentInterval && clearInterval(sentInterval);
-            onErrorRef.current?.(err);
+            onErrorRef.current?.(err as Error);
           }
         }
       }

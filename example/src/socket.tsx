@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { createSocketContext } from "../../lib";
+import { createSocketIoContext } from "../../src";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
-const SocketContext = createSocketContext<Chat>({
+const SocketContext = createSocketIoContext<Chat>({
   shareConnectionBetweenTab: true,
 });
+
 const Socket = () => {
   return (
     <SocketContext.Provider

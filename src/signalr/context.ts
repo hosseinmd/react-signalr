@@ -9,7 +9,7 @@ import { providerNativeFactory } from "./provider/providerNativeFactory";
 
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 function createSignalRContext<T extends Hub>(options?: {
-  shareConnectionBetweenTab: boolean;
+  shareConnectionBetweenTab?: boolean;
 }) {
   const events: T["callbacksName"][] = [];
   const context: Context<T> = {

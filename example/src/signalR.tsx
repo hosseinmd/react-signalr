@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createSignalRContext } from "../../lib";
+import { createSignalRContext } from "../../src";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
 const SignalRContext = createSignalRContext<Chat>({

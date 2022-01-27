@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { usePropRef } from "../../utils";
 import { Context, Hub } from "../types";
-import { createConnection, isConnectionConnecting, usePropRef } from "../utils";
+import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 
 function providerNativeFactory<T extends Hub>(Context: Context<T>) {
@@ -39,7 +40,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
             await connection.start();
           } catch (err) {
             console.log(err);
-            onErrorRef.current?.(err);
+            onErrorRef.current?.(err as Error);
           }
         }
       }

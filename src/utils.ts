@@ -1,4 +1,8 @@
 import hermes from "hermes-channel";
+import { useRef } from "react";
+
+const __DEV__ = process.env.NODE_ENV !== "production";
+
 function removeDuplicates(arr: string[]) {
   const s = new Set(arr);
   const it = s.values();
@@ -13,4 +17,13 @@ function sendWithHermes(
   hermes.send(event, message, shareConnectionBetweenTab ? "all" : "current");
 }
 
-export { removeDuplicates, sendWithHermes };
+function usePropRef<T>(prop: T) {
+  const ref = useRef<T>(prop);
+  if (ref.current !== prop) {
+    ref.current = prop;
+  }
+
+  return ref;
+}
+
+export { removeDuplicates, sendWithHermes, usePropRef, __DEV__ };

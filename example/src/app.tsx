@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { SignalR } from "./signalR";
 import { Socket } from "./socket";
+import { WebSocket } from "./webSocket";
 
 const App = () => {
-  const [isSignalR, setIsSignalR] = useState<boolean>(true);
+  const [page, setIsSignalR] = useState<"SignalR" | "Socket" | "WebSocket">(
+    "WebSocket",
+  );
   return (
     <div>
-      <button onClick={() => setIsSignalR(true)}>SignalR</button>
-      <button onClick={() => setIsSignalR(false)}>Socket</button>
-      {isSignalR ? <SignalR /> : <Socket />}
+      <button onClick={() => setIsSignalR("SignalR")}>SignalR</button>
+      <button onClick={() => setIsSignalR("Socket")}>Socket</button>
+      <button onClick={() => setIsSignalR("WebSocket")}>Web Socket</button>
+      {page === "SignalR" ? (
+        <SignalR />
+      ) : page === "Socket" ? (
+        <Socket />
+      ) : (
+        <WebSocket />
+      )}
     </div>
   );
 };

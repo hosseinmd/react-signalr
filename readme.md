@@ -8,6 +8,7 @@
 
 Supported microsoft/signalR version 5 and later
 Supported Socket.io
+Supported WebSocket
 
 Features
 
@@ -26,6 +27,14 @@ Features
 `$ yarn add react-signalr`
 
 ### getStart
+
+```js
+import {
+  createSignalRContext, // SignalR
+  createWebSocketContext, // WebSocket
+  createSocketIoContext, // Socket.io
+} from "react-signalr";
+```
 
 create a signalr context,
 
@@ -73,4 +82,4 @@ const Comp = () => {
 
 ### React-Native
 
-Install `react-native-get-random-values`
+Full supported
