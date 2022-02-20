@@ -1,1 +1,3 @@
-export * from "./providerNativeFactory";
+import { providerNativeFactory as providerFactory } from "./providerNativeFactory";
+
+export { providerFactory };

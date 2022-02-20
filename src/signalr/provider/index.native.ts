@@ -1,2 +1,4 @@
 import "react-native-get-random-values";
-export * from "./providerNativeFactory";
+import { providerNativeFactory as providerFactory } from "./providerNativeFactory";
+
+export { providerFactory };
