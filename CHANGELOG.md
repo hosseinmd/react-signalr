@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.8](https://github.com/hosseinmd/react-signalr/compare/v0.2.7...v0.2.8) (2022-02-20)
+
+
+### Bug Fixes
+
+* react-native  providerFactory export ([4b78c25](https://github.com/hosseinmd/react-signalr/commit/4b78c25b30fe8ec29fe5a2440628dd0ef9d437c5))
+
 ### [0.2.7](https://github.com/hosseinmd/react-signalr/compare/v0.2.6...v0.2.7) (2022-01-30)
 
 
