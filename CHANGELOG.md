@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.9](https://github.com/hosseinmd/react-signalr/compare/v0.2.8...v0.2.9) (2022-03-01)
+
+
+### Features
+
+* add onOpen, onClosed and onBeforeClose events to signalr provider ([67ad747](https://github.com/hosseinmd/react-signalr/commit/67ad747f38a87078d680ed2b694be6eab1a776dd))
+
 ### [0.2.8](https://github.com/hosseinmd/react-signalr/compare/v0.2.7...v0.2.8) (2022-02-20)
 
 
