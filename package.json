@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/hosseinmd/react-signalr#readme",
   "dependencies": {
-    "@microsoft/signalr": "^5.0.0",
+    "@microsoft/signalr": "^6.0.2",
     "hermes-channel": "^2.1.2",
     "js-cookie": "^2.2.1",
     "socket.io": "^4.2.0",
