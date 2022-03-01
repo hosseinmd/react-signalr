@@ -12,6 +12,9 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
     dependencies = [],
     accessTokenFactory,
     onError,
+    onOpen,
+    onClosed,
+    onBeforeClose,
     ...rest
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
@@ -34,10 +37,15 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
       //@ts-ignore
       Context.reOn();
 
+      connection.onclose((error) => {
+        onClosed?.(error);
+      });
+
       async function checkForStart() {
         if (!isConnectionConnecting(connection)) {
           try {
             await connection.start();
+            onOpen?.(connection);
           } catch (err) {
             console.log(err);
             onErrorRef.current?.(err as Error);
@@ -49,8 +57,9 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
 
       const checkInterval = setInterval(checkForStart, 6000);
 
-      clear.current = () => {
+      clear.current = async () => {
         clearInterval(checkInterval);
+        await onBeforeClose?.(connection);
         connection.stop();
       };
     }

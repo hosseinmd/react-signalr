@@ -3,7 +3,7 @@ import { createSignalRContext } from "../../src";
 import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
 
 const SignalRContext = createSignalRContext<Chat>({
-  shareConnectionBetweenTab: false,
+  shareConnectionBetweenTab: true,
 });
 
 const SignalR = () => {
@@ -13,6 +13,16 @@ const SignalR = () => {
       // accessTokenFactory={() => token}
       // dependencies={[token]} //remove previous connection and create a new connection if changed
       url={"http://localhost:5000/hub"}
+      onOpen={() => console.log("open")}
+      onBeforeClose={() =>
+        new Promise((resolve, reject) => {
+          console.log("before close");
+          setTimeout(() => {
+            resolve();
+          }, 1000);
+        })
+      }
+      onClosed={() => console.log("close", SignalRContext.connection?.state)}
     >
       <Todo />
     </SignalRContext.Provider>

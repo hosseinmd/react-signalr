@@ -1,4 +1,4 @@
-import { IHttpConnectionOptions } from "@microsoft/signalr";
+import { HubConnection, IHttpConnectionOptions } from "@microsoft/signalr";
 import { DependencyList } from "react";
 
 export interface ProviderProps extends IHttpConnectionOptions {
@@ -8,4 +8,7 @@ export interface ProviderProps extends IHttpConnectionOptions {
   onError?: (error?: Error) => Promise<void>;
   url: string;
   children: JSX.Element;
+  onBeforeClose?: (connection: HubConnection) => Promise<void> | void;
+  onClosed?: (error?: Error) => void;
+  onOpen?: (connection: HubConnection) => void;
 }

@@ -17,6 +17,9 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     dependencies = [],
     accessTokenFactory,
     onError,
+    onOpen,
+    onClosed,
+    onBeforeClose,
     ...rest
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
@@ -40,6 +43,10 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
       //@ts-ignore
       Context.reOn();
+
+      connection.onclose((error) => {
+        onClosed?.(error);
+      });
 
       let lastConnectionSentState: number | null =
         Number(jsCookie.get(KEY_LAST_CONNECTION_TIME)) || null;
@@ -88,6 +95,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           try {
             shoutConnected(connection.connectionId);
             await connection.start();
+            onOpen?.(connection);
 
             sentInterval = setInterval(syncWithTabs, 4000);
 
@@ -119,9 +127,11 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       /** AddEventListener is not exist in react-native */
       window?.addEventListener?.("beforeunload", onBeforeunload);
 
-      clear.current = () => {
+      clear.current = async () => {
         clearInterval(checkInterval);
         sentInterval && clearInterval(sentInterval);
+        await onBeforeClose?.(connection);
+
         connection.stop();
         hermes.off(IS_SIGNAL_R_CONNECTED);
         /** RemoveEventListener is not exist in react-native */
