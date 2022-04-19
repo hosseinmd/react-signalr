@@ -14,6 +14,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
     onError,
     onOpen,
     onClosed,
+    onReconnect,
     onBeforeClose,
     ...rest
   }: ProviderProps) => {
@@ -32,6 +33,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
         ...rest,
       });
       connection.onreconnecting((error) => onErrorRef.current?.(error));
+      connection.onreconnected(() => onReconnect?.(connection));
 
       Context.connection = connection;
       //@ts-ignore

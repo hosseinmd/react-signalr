@@ -11,4 +11,5 @@ export interface ProviderProps extends IHttpConnectionOptions {
   onBeforeClose?: (connection: HubConnection) => Promise<void> | void;
   onClosed?: (error?: Error) => void;
   onOpen?: (connection: HubConnection) => void;
+  onReconnect?: (connection: HubConnection) => void;
 }

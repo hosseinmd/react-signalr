@@ -18,6 +18,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     accessTokenFactory,
     onError,
     onOpen,
+    onReconnect,
     onClosed,
     onBeforeClose,
     ...rest
@@ -38,6 +39,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       });
 
       connection.onreconnecting((error) => onErrorRef.current?.(error));
+      connection.onreconnected(() => onReconnect?.(connection));
 
       Context.connection = connection;
 
