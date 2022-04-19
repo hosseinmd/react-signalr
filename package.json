@@ -10,7 +10,7 @@
     "build": "rm -rf ./lib && yarn compile",
     "lint": "eslint --ext '.ts' ./src",
     "test": "yarn build && jest",
-    "release": " yarn build && standard-version && yarn publish",
+    "release": " yarn build && standard-version && npm publish && git push --follow-tags origin main",
     "prettierAll": "prettier --write ."
   },
   "repository": {
