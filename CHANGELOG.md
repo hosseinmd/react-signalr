@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.11](https://github.com/hosseinmd/react-signalr/compare/v0.2.10...v0.2.11) (2022-04-19)
+
+
+### Features
+
+* add onReconnect event to signalr ([763053f](https://github.com/hosseinmd/react-signalr/commit/763053f5810b8d852235eb6c8e43edbabd7367a4))
+
 ### [0.2.10](https://github.com/hosseinmd/react-signalr/compare/v0.2.9...v0.2.10) (2022-03-01)
 
 
