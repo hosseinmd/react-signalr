@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.12](https://github.com/hosseinmd/react-signalr/compare/v0.2.11...v0.2.12) (2022-07-23)
+
+
+### Bug Fixes
+
+* export logger ([83c853e](https://github.com/hosseinmd/react-signalr/commit/83c853ea18a131adde399a0f0c97a92eafb2626d)), closes [/github.com/hosseinmd/react-signalr/issues/10#issuecomment-1192870945](https://github.com/hosseinmd//github.com/hosseinmd/react-signalr/issues/10/issues/issuecomment-1192870945)
+
 ### [0.2.11](https://github.com/hosseinmd/react-signalr/compare/v0.2.10...v0.2.11) (2022-04-19)
 
 
