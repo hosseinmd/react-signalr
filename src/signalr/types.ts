@@ -1,9 +1,9 @@
 import { HubConnection } from "@microsoft/signalr";
-import { DependencyList } from "react";
+import { DependencyList, ReactNode } from "react";
 import { ProviderProps } from "./provider";
 
 export interface Context<T extends Hub> {
-  Provider: (Props: ProviderProps) => JSX.Element;
+  Provider: (Props: ProviderProps) => ReactNode | ReactNode[];
   connection: HubConnection | null;
   shareConnectionBetweenTab: boolean;
   invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(

@@ -1,10 +1,10 @@
-import { DependencyList } from "react";
+import { DependencyList, ReactNode } from "react";
 import { Socket } from "socket.io-client";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { ProviderProps } from "./provider";
 
 export interface Context<T extends Hub> {
-  Provider: (Props: ProviderProps) => JSX.Element;
+  Provider: (Props: ProviderProps) => ReactNode | ReactNode[];
   connection: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   shareConnectionBetweenTab: boolean;
   invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
