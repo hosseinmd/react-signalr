@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.13](https://github.com/hosseinmd/react-signalr/compare/v0.2.12...v0.2.13) (2022-07-23)
+
+
+### Bug Fixes
+
+* provider children type ([fa41a26](https://github.com/hosseinmd/react-signalr/commit/fa41a26b4a23091e07e19b9489f841c160d8d7e5))
+
 ### [0.2.12](https://github.com/hosseinmd/react-signalr/compare/v0.2.11...v0.2.12) (2022-07-23)
 
 
