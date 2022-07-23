@@ -3,9 +3,7 @@ import {
   HubConnectionBuilder,
   HubConnectionState,
   IHttpConnectionOptions,
-  LogLevel,
 } from "@microsoft/signalr";
-import { __DEV__ } from "../utils";
 
 function isConnectionConnecting(connection: HubConnection) {
   return (
@@ -20,9 +18,9 @@ function createConnection(url: string, transportType: IHttpConnectionOptions) {
     .withUrl(url, transportType)
     .withAutomaticReconnect();
 
-  if (__DEV__) {
+  if (transportType.logger) {
     connectionBuilder = connectionBuilder.configureLogging(
-      LogLevel.Information,
+      transportType.logger,
     );
   }
 

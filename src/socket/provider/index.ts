@@ -61,7 +61,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           return;
         }
         if (__DEV__) {
-          console.log("_anotherTabConnectionId");
+          console.log("Another tab connected");
         }
         anotherTabConnectionId = _anotherTabConnectionId;
         lastConnectionSentState = Date.now();

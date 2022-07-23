@@ -21,6 +21,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     onReconnect,
     onClosed,
     onBeforeClose,
+    logger,
     ...rest
   }: ProviderProps) => {
     const onErrorRef = usePropRef(onError);
@@ -35,6 +36,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
       const connection = createConnection(url, {
         accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+        logger,
         ...rest,
       });
 
@@ -64,8 +66,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
           return;
         }
-        if (__DEV__) {
-          console.log("_anotherTabConnectionId");
+        if (logger) {
+          console.log("Another tab connected");
         }
         anotherTabConnectionId = _anotherTabConnectionId;
         lastConnectionSentState = Date.now();
