@@ -39,9 +39,9 @@ import {
 create a signalr context,
 
 ```js
-import { createSignalRContext } from "react-signalr";
+import { createSignalRContext }rom "react-signalr";
 
-const SignalRContext = createSignalRContext();
+const { useSignalREffect, Provider } = createSignalRContext();
 // or createSocketContext for socket.io
 
 const App = () => {
@@ -65,6 +65,8 @@ const App = () => {
 Use this to connect to an event
 
 ```js
+const { useSignalREffect, Provider } = createSignalRContext();
+
 const Comp = () => {
   const [messages, setMessage] = useState([]);
 
