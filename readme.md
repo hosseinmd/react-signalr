@@ -45,7 +45,7 @@ const { useSignalREffect, Provider } = createSignalRContext();
 // or createSocketContext for socket.io
 
 const App = () => {
-  const { token } = StoreAuthentication.useState();
+  const { token } = ِYourAccessToken
 
   return (
     <SignalRContext.Provider
