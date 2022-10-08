@@ -39,13 +39,13 @@ import {
 create a signalr context,
 
 ```js
-import { createSignalRContext }rom "react-signalr";
+import { createSignalRContext } from "react-signalr";
 
 const { useSignalREffect, Provider } = createSignalRContext();
-// or createSocketContext for socket.io
+// or createSocketIoContext() for socket.io
 
 const App = () => {
-  const { token } = ِYourAccessToken
+  const { token } = YourAccessToken
 
   return (
     <SignalRContext.Provider
