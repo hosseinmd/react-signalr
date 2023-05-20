@@ -3,7 +3,7 @@ import { DependencyList, ReactNode } from "react";
 import { ProviderProps } from "./provider";
 
 export interface Context<T extends Hub> {
-  Provider: (Props: ProviderProps) => ReactNode | ReactNode[];
+  Provider: (Props: ProviderProps) => JSX.Element;
   connection: HubConnection | null;
   shareConnectionBetweenTab: boolean;
   invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(

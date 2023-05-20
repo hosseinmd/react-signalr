@@ -152,7 +152,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectEnabled, url, ...dependencies]);
 
-    return children;
+    return children as JSX.Element;
   };
 
   return Provider;

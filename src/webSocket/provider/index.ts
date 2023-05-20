@@ -146,7 +146,7 @@ function providerFactory(context: Context) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectEnabled, url, ...dependencies]);
 
-    return children;
+    return children as JSX.Element;
   };
 
   return Provider;
