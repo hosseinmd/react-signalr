@@ -1,4 +1,4 @@
-# react-signalr Is a tools for using signalr socket in react/react-native apps
+# react-signalr Is a tools for using (signalR, Socket.io or WebSocket) socket in react/react-native apps
 
 [![NPM](https://nodei.co/npm/react-signalr.png)](https://nodei.co/npm/react-signalr/)
 
@@ -6,9 +6,9 @@
 
 ## react-signalr
 
-Supported microsoft/signalR version 5 and later
-Supported Socket.io
-Supported WebSocket
+- Supported microsoft/signalR version 5 and later
+- Supported Socket.io
+- Supported WebSocket
 
 Features
 
