@@ -13,6 +13,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
   const Provider = ({
     url,
     connectEnabled = true,
+    automaticReconnect = true,
     children,
     dependencies = [],
     accessTokenFactory,
@@ -38,7 +39,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
         logger,
         ...rest,
-      });
+      }, automaticReconnect);
 
       connection.onreconnecting((error) => onErrorRef.current?.(error));
       connection.onreconnected(() => onReconnect?.(connection));

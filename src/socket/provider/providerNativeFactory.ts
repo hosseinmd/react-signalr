@@ -8,6 +8,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
   const Provider = ({
     url,
     connectEnabled = true,
+    automaticReconnect = true,
     children,
     dependencies = [],
     accessTokenFactory,
@@ -28,6 +29,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
         extraHeaders: {
           Authorization: (await accessTokenFactoryRef.current?.()) || "",
         },
+        reconnection: automaticReconnect,
         ...rest,
       });
 

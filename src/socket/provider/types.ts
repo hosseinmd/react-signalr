@@ -15,4 +15,5 @@ export interface ProviderProps extends Partial<ManagerOptions & SocketOptions> {
    *     token, or a Promise that resolves to a string containing the access token.
    */
   accessTokenFactory?(): string | Promise<string>;
+  automaticReconnect?: boolean;
 }
