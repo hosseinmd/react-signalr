@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.17](https://github.com/hosseinmd/react-signalr/compare/v0.2.16...v0.2.17) (2023-06-25)
+
+
+### Features
+
+* add automatic reconnect feature ([#26](https://github.com/hosseinmd/react-signalr/issues/26)) ([4f8d330](https://github.com/hosseinmd/react-signalr/commit/4f8d3307a0c43a91a8f842739f4b062032fa36af))
+
 ### [0.2.16](https://github.com/hosseinmd/react-signalr/compare/v0.2.11...v0.2.16) (2023-05-20)
 
 ### Bug Fixes
