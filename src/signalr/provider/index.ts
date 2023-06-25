@@ -35,11 +35,15 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         return;
       }
 
-      const connection = createConnection(url, {
-        accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
-        logger,
-        ...rest,
-      }, automaticReconnect);
+      const connection = createConnection(
+        url,
+        {
+          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+          logger,
+          ...rest,
+        },
+        automaticReconnect,
+      );
 
       connection.onreconnecting((error) => onErrorRef.current?.(error));
       connection.onreconnected(() => onReconnect?.(connection));

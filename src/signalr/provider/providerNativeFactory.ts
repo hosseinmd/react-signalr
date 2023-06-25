@@ -29,10 +29,14 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
         return;
       }
 
-      const connection = createConnection(url, {
-        accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
-        ...rest,
-      }, automaticReconnect);
+      const connection = createConnection(
+        url,
+        {
+          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+          ...rest,
+        },
+        automaticReconnect,
+      );
       connection.onreconnecting((error) => onErrorRef.current?.(error));
       connection.onreconnected(() => onReconnect?.(connection));
 
