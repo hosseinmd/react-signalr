@@ -13,10 +13,13 @@ function isConnectionConnecting(connection: HubConnection) {
   );
 }
 
-function createConnection(url: string, transportType: IHttpConnectionOptions) {
+function createConnection(url: string, transportType: IHttpConnectionOptions, automaticReconnect: boolean = true) {
   let connectionBuilder = new HubConnectionBuilder()
     .withUrl(url, transportType)
-    .withAutomaticReconnect();
+
+    if (automaticReconnect) {
+      connectionBuilder = connectionBuilder.withAutomaticReconnect();
+    }
 
   if (transportType.logger) {
     connectionBuilder = connectionBuilder.configureLogging(

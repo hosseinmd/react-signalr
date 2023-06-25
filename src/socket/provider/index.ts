@@ -13,6 +13,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
   const Provider = ({
     url,
     connectEnabled = true,
+    automaticReconnect = true,
     children,
     dependencies = [],
     accessTokenFactory,
@@ -31,6 +32,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
 
       const connection = createConnection(url, {
         autoConnect: true,
+        reconnection: automaticReconnect,
         transportOptions: {
           polling: {
             extraHeaders: {
