@@ -1,5 +1,5 @@
 import { HubConnection } from "@microsoft/signalr";
-import { DependencyList, ReactNode } from "react";
+import { DependencyList } from "react";
 import { ProviderProps } from "./provider";
 
 export interface Context<T extends Hub> {

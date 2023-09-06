@@ -1,2 +1,2 @@
 export * from "./context";
-export { ILogger, LogLevel } from "@microsoft/signalr";
+export type { ILogger, LogLevel } from "@microsoft/signalr";

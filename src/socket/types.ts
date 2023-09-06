@@ -1,4 +1,4 @@
-import { DependencyList, ReactNode } from "react";
+import { DependencyList } from "react";
 import { Socket } from "socket.io-client";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { ProviderProps } from "./provider";

@@ -4,7 +4,7 @@ import jsCookie from "js-cookie";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 import { Context, Hub } from "../types";
-import { usePropRef, __DEV__ } from "../../utils";
+import { usePropRef } from "../../utils";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";

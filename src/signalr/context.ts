@@ -17,6 +17,10 @@ function createSignalRContext<T extends Hub>(options?: {
     useSignalREffect: null as any, // Assigned after context
     shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
     invoke: (methodName: string, ...args: any[]) => {
+      if (!context.shareConnectionBetweenTab) {
+        return context.connection?.invoke(methodName, ...args);
+      }
+
       const SIGNAL_R_RESPONSE = uuid();
       sendWithHermes(
         SIGNAL_R_INVOKE,
