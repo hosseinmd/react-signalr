@@ -13,7 +13,6 @@ module.exports = function override(config, env) {
   config.resolve.plugins = config.resolve.plugins.filter(
     (plugin) => plugin.constructor.name !== "ModuleScopePlugin",
   );
-
   config.module.rules[0].include = appIncludes;
   //eslint
   // if (__DEV__) {
@@ -23,7 +22,7 @@ module.exports = function override(config, env) {
   //   config.module.rules[1] = null;
   // }
   // oneOf index will change to 2 in future
-  config.module.rules[1].oneOf[2].include = appIncludes;
+  config.module.rules[1].oneOf[3].include = appIncludes;
   // config.module.rules[1].oneOf[2].options.plugins = [
   //   require.resolve("babel-plugin-react-native-web"),
   // ].concat(config.module.rules[1].oneOf[2].options.plugins);

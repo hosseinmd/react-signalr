@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { createSocketIoContext } from "../../src";
-import { Chat, ChatCallbacksNames, ChatOperationsNames } from "./services/hub";
+import {
+  Chat,
+  ChatCallbacksNames,
+  ChatOperationsNames,
+  JobType,
+} from "./services/hub";
 
 const SocketContext = createSocketIoContext<Chat>({
   shareConnectionBetweenTab: true,
@@ -20,21 +25,22 @@ const Socket = () => {
 };
 
 function Todo() {
-  const [message, setMessage] = useState("");
-  const [date, setDate] = useState("");
+  const [list, setList] = useReducer((state: string[] = [], action: string) => {
+    return [action, ...state].slice(0, 200);
+  }, []);
 
   SocketContext.useSocketEffect(
     ChatCallbacksNames.startwork,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     (message) => {
-      setMessage(JSON.stringify(message));
+      setList("⬇ :" + JSON.stringify(message));
     },
     [],
   );
   SocketContext.useSocketEffect(
     ChatCallbacksNames.hello,
     (message) => {
-      setDate(JSON.stringify(message));
+      setList("⬇ :" + JSON.stringify(message));
     },
     [],
   );
@@ -51,19 +57,21 @@ function Todo() {
       <h3>React socket.io</h3>
       <button
         onClick={() => {
-          SocketContext.invoke(ChatOperationsNames.StartWorkAsync, {
+          const message = {
             firstName: "mohammad",
             lastName: "heydari",
-            //@ts-ignore
-            JobType: 1,
+            jobType: JobType.Programer,
             birthDate: new Date().toISOString(),
-          });
+          } as const;
+          SocketContext.invoke(ChatOperationsNames.StartWorkAsync, message);
+          setList("⬆ :" + JSON.stringify(message));
         }}
       >
         Send Socket
       </button>
-      <p>{message}</p>
-      <p>{date}</p>
+      {list.map((message, index) => (
+        <p key={index}>{message}</p>
+      ))}
     </div>
   );
 }

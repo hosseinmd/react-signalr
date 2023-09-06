@@ -1,10 +1,11 @@
 {
-  "name": "examples-web",
+  "name": "example",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "run-hub": "cd ./signalr && dotnet run cd ../",
     "start": "cd ../ && yarn build && cd ./example && react-app-rewired start",
+    "start-servers": "concurrently 'yarn run-hub' 'yarn run-socket' 'yarn run-websocket'",
+    "run-hub": "cd ./signalr && dotnet run cd ../",
     "run-socket": "node socket/server.js",
     "run-websocket": "node webSocket/server.js",
     "build": "react-app-rewired build",
