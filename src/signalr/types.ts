@@ -6,10 +6,14 @@ export interface Context<T extends Hub> {
   Provider: (Props: ProviderProps) => JSX.Element;
   connection: HubConnection | null;
   shareConnectionBetweenTab: boolean;
-  invoke: <E extends T["methodsName"], C extends Parameters<T["methods"][E]>>(
+  invoke: <
+    E extends T["methodsName"],
+    C extends Parameters<T["methods"][E]>,
+    R = any,
+  >(
     methodName: E,
     ...args: C
-  ) => void;
+  ) => Promise<R> | undefined;
   useSignalREffect: <E extends T["callbacksName"], C extends T["callbacks"][E]>(
     events: E,
     callback: C,

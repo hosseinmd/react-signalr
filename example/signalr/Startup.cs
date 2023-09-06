@@ -47,6 +47,7 @@ namespace Example
                 });
             });
             services.AddScoped<IChatService, ChatService>();
+            services.AddHostedService<Worker>();
             services.AddSignalR()
                         .AddNewtonsoftJsonProtocol(options =>
                             {

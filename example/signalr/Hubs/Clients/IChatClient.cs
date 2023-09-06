@@ -7,7 +7,7 @@ namespace Example.Hubs.Clients
     public interface IChatClient
     {
         [HubMethodName("hello")]
-        Task Hello();
+        Task Hello(string message);
 
         [HubMethodName("startwork")]
         Task StartWorkAsync(StartWorkVm message);

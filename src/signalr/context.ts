@@ -16,7 +16,7 @@ function createSignalRContext<T extends Hub>(options?: {
     connection: null,
     useSignalREffect: null as any, // Assigned after context
     shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
-    invoke: (methodName: string, ...args: any[]) => {
+    invoke(methodName: string, ...args: any[]): Promise<any> | undefined {
       if (!context.shareConnectionBetweenTab) {
         return context.connection?.invoke(methodName, ...args);
       }

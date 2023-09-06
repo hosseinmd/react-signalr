@@ -63,8 +63,8 @@ function Todo() {
             jobType: JobType.Programer,
             birthDate: new Date().toISOString(),
           } as const;
-          SocketContext.invoke(ChatOperationsNames.StartWorkAsync, message);
           setList("⬆ :" + JSON.stringify(message));
+          SocketContext.invoke(ChatOperationsNames.StartWorkAsync, message);
         }}
       >
         Send Socket
