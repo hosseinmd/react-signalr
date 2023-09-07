@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { createSignalRContext } from "../../src";
+import { createSignalRContext } from "../../signalr";
 import {
   Chat,
   ChatCallbacksNames,

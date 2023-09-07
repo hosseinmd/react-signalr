@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createWebSocketContext } from "../../src";
+import { createWebSocketContext } from "../../websocket";
 
 const SocketContext = createWebSocketContext({
   key: "1",

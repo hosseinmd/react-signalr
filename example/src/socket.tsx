@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { createSocketIoContext } from "../../src";
+import { createSocketIoContext } from "../../socketio";
 import {
   Chat,
   ChatCallbacksNames,

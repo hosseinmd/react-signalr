@@ -18,31 +18,25 @@ Features
 
 ## TOC
 
-- [install](#install)
-- [getStart](#getStart)
-- [useSignalREffect](#useSignalREffect)
+- [Install](#install)
+- [Get started SignalR](#signalr)
+- [Get started SocketIO](#socketio)
+- [Get started WebSocket](#websocket)
 
-### install
+## install
 
-`$ yarn add react-signalr`
+`$ yarn add react-signalr @microsoft/signalr socket.io-client`
 
-### getStart
+## Get started
 
-```js
-import {
-  createSignalRContext, // SignalR
-  createWebSocketContext, // WebSocket
-  createSocketIoContext, // Socket.io
-} from "react-signalr";
-```
+## signalr
 
-create a signalr context,
+First of all you need to create a signalR context. every thing is depend on your context, you could create multiple context.
 
 ```js
-import { createSignalRContext } from "react-signalr";
+import { createSignalRContext } from "react-signalr/signalr";
 
-const { useSignalREffect, Provider } = createSignalRContext();
-// or createSocketIoContext() for socket.io
+const SignalRContext = createSignalRContext();
 
 const App = () => {
   const { token } = YourAccessToken;
@@ -60,17 +54,15 @@ const App = () => {
 };
 ```
 
-### useSignalREffect
+#### useSignalREffect
 
-Use this to connect to an event
+Use this for connect to an event
 
 ```js
-const { useSignalREffect, Provider } = createSignalRContext();
-
 const Comp = () => {
   const [messages, setMessage] = useState([]);
 
-  useSignalREffect(
+  SignalRContext.useSignalREffect(
     "event name",
     (message) => {
       setMessage([...messages, message]);
@@ -78,7 +70,96 @@ const Comp = () => {
     [messages],
   );
 
-  return null;
+  return <Components />;
+};
+```
+
+## socketio
+
+create a socketIO context,
+
+```js
+import { createSocketIoContext } from "react-signalr/socketio";
+
+const SocketIOContext = createSocketIoContext();
+
+const App = () => {
+  const { token } = YourAccessToken;
+
+  return (
+    <SocketIOContext.Provider
+      connectEnabled={!!token}
+      accessTokenFactory={() => token}
+      dependencies={[token]} //remove previous connection and create a new connection if changed
+      url={"https://example/hub"}
+    >
+      <Routes />
+    </SocketIOContext.Provider>
+  );
+};
+```
+
+#### useSignalREffect
+
+Use this to connect to an event
+
+```js
+const Comp = () => {
+  const [messages, setMessage] = useState([]);
+
+  SocketIOContext.useSocketEffect(
+    "event name",
+    (message) => {
+      setMessage([...messages, message]);
+    },
+    [messages],
+  );
+
+  return <Components />;
+};
+```
+
+## websocket
+
+create a websocket context,
+
+```js
+import { createWebSocketContext } from "react-signalr/websocket";
+
+const WebsocketContext = createWebSocketContext();
+
+const App = () => {
+  const { token } = YourAccessToken;
+
+  return (
+    <WebsocketContext.Provider
+      connectEnabled={!!token}
+      dependencies={[token]} //remove previous connection and create a new connection if changed
+      url={"https://example/hub"}
+    >
+      <Routes />
+    </WebsocketContext.Provider>
+  );
+};
+```
+
+#### useWebSocketEffect
+
+Use this for connect to an event in you component
+
+```js
+const Comp = () => {
+  const [messages, setMessage] = useState([]);
+
+  WebsocketContext.useWebSocketEffect(
+    "event name",
+    (message) => {
+      setMessage([...messages, message]);
+    },
+    [messages],
+  );
+
+  return <Components />;
 };
 ```
 
