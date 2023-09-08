@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.18](https://github.com/hosseinmd/react-signalr/compare/v0.2.17...v0.2.18) (2023-09-08)
+
+
+### Bug Fixes
+
+* add separate files for each tools ([44a18e5](https://github.com/hosseinmd/react-signalr/commit/44a18e549da5fea5eee644c3609b7669cbaac8e6))
+* example ([5b6029e](https://github.com/hosseinmd/react-signalr/commit/5b6029eedbedd060d497e88a7aab1e0dd0a7cfc4))
+* invoke when share connection is disabled ([dde6bfc](https://github.com/hosseinmd/react-signalr/commit/dde6bfc49a8f7e5dc25eda218b1753ed261cdfed))
+* remove deps of events ([b842ada](https://github.com/hosseinmd/react-signalr/commit/b842ada44b30b42f79116b633ec1e55ab1ce7a53))
+* signalr example ([39cf498](https://github.com/hosseinmd/react-signalr/commit/39cf49845da79f1e164aa5b70459c4a23d3c821f))
+
 ### [0.2.17](https://github.com/hosseinmd/react-signalr/compare/v0.2.16...v0.2.17) (2023-06-25)
 
 
