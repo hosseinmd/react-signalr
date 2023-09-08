@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { usePropRef } from "../../utils";
+import { useEvent } from "../../utils";
 import { Context, Hub } from "../types";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
@@ -15,8 +15,8 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
     onError,
     ...rest
   }: ProviderProps) => {
-    const onErrorRef = usePropRef(onError);
-    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
+    const onErrorRef = useEvent(onError);
+    const accessTokenFactoryRef = useEvent(accessTokenFactory);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
@@ -27,7 +27,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
 
       const connection = createConnection(url, {
         extraHeaders: {
-          Authorization: (await accessTokenFactoryRef.current?.()) || "",
+          Authorization: (await accessTokenFactoryRef?.()) || "",
         },
         reconnection: automaticReconnect,
         ...rest,
@@ -44,7 +44,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
             await connection.open();
           } catch (err) {
             console.log(err);
-            onErrorRef.current?.(err as Error);
+            onErrorRef?.(err as Error);
           }
         }
       }

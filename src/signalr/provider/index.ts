@@ -4,7 +4,7 @@ import jsCookie from "js-cookie";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 import { Context, Hub } from "../types";
-import { usePropRef } from "../../utils";
+import { useEvent } from "../../utils";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
@@ -25,8 +25,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     logger,
     ...rest
   }: ProviderProps) => {
-    const onErrorRef = usePropRef(onError);
-    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
+    const onErrorRef = useEvent(onError);
+    const accessTokenFactoryRef = useEvent(accessTokenFactory);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
@@ -38,14 +38,14 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
       const connection = createConnection(
         url,
         {
-          accessTokenFactory: () => accessTokenFactoryRef.current?.() || "",
+          accessTokenFactory: () => accessTokenFactoryRef?.() || "",
           logger,
           ...rest,
         },
         automaticReconnect,
       );
 
-      connection.onreconnecting((error) => onErrorRef.current?.(error));
+      connection.onreconnecting((error) => onErrorRef?.(error));
       connection.onreconnected(() => onReconnect?.(connection));
 
       Context.connection = connection;
@@ -112,7 +112,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           } catch (err) {
             console.log(err);
             sentInterval && clearInterval(sentInterval);
-            onErrorRef.current?.(err as Error);
+            onErrorRef?.(err as Error);
           }
         }
       }

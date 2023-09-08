@@ -63,11 +63,10 @@ const Comp = () => {
   const [messages, setMessage] = useState([]);
 
   SignalRContext.useSignalREffect(
-    "event name",
+    "event name", // Your Event Key
     (message) => {
       setMessage([...messages, message]);
     },
-    [messages],
   );
 
   return <Components />;
@@ -108,11 +107,10 @@ const Comp = () => {
   const [messages, setMessage] = useState([]);
 
   SocketIOContext.useSocketEffect(
-    "event name",
+    "event name", // Your Event Key
     (message) => {
       setMessage([...messages, message]);
     },
-    [messages],
   );
 
   return <Components />;
@@ -152,11 +150,10 @@ const Comp = () => {
   const [messages, setMessage] = useState([]);
 
   WebsocketContext.useWebSocketEffect(
-    "event name",
+    "event name", // Your Event Key
     (message) => {
       setMessage([...messages, message]);
     },
-    [messages],
   );
 
   return <Components />;

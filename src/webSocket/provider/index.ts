@@ -4,7 +4,7 @@ import jsCookie from "js-cookie";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 import { Context } from "../types";
-import { usePropRef, __DEV__ } from "../../utils";
+import { useEvent, __DEV__ } from "../../utils";
 
 const IS_SIGNAL_R_CONNECTED = "IS_SIGNAL_R_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
@@ -20,7 +20,7 @@ function providerFactory(context: Context) {
     onClose,
     logger = __DEV__ ? console : null,
   }: ProviderProps) => {
-    const onErrorRef = usePropRef(onError);
+    const onErrorRef = useEvent(onError);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
@@ -94,7 +94,7 @@ function providerFactory(context: Context) {
           } catch (err) {
             logger?.error((err as Error).message);
             sentInterval && clearInterval(sentInterval);
-            onErrorRef.current?.(err as Error);
+            onErrorRef?.(err as Error);
           }
         }
       }

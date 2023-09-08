@@ -1,16 +1,16 @@
 import hermes from "hermes-channel";
 import { useEffect } from "react";
-import { usePropRef } from "../utils";
+import { useEvent } from "../utils";
 import { Context } from "./types";
 import { getMessageEvent } from "./utils";
 
 function createUseSignalREffect(context: Context) {
   const useSignalREffect = (callback: (data: any) => void) => {
-    const callbackRef = usePropRef(callback);
+    const callbackRef = useEvent(callback);
 
     useEffect(() => {
       function _callback(data: any) {
-        callbackRef.current(data);
+        callbackRef(data);
       }
 
       hermes.on(getMessageEvent(context), _callback);

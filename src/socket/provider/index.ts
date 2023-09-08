@@ -4,7 +4,7 @@ import jsCookie from "js-cookie";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
 import { Context, Hub } from "../types";
-import { usePropRef, __DEV__ } from "../../utils";
+import { useEvent, __DEV__ } from "../../utils";
 
 const IS_SOCKET_CONNECTED = "IS_SOCKET_CONNECTED";
 const KEY_LAST_CONNECTION_TIME = "KEY_LAST_CONNECTION_TIME";
@@ -20,8 +20,8 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
     onError,
     ...rest
   }: ProviderProps) => {
-    const onErrorRef = usePropRef(onError);
-    const accessTokenFactoryRef = usePropRef(accessTokenFactory);
+    const onErrorRef = useEvent(onError);
+    const accessTokenFactoryRef = useEvent(accessTokenFactory);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
@@ -36,7 +36,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
         transportOptions: {
           polling: {
             extraHeaders: {
-              Authorization: () => accessTokenFactoryRef.current?.() || "",
+              Authorization: () => accessTokenFactoryRef?.() || "",
             },
           },
         },
@@ -101,7 +101,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           } catch (err) {
             console.log(err);
             sentInterval && clearInterval(sentInterval);
-            onErrorRef.current?.(err as Error);
+            onErrorRef?.(err as Error);
           }
         }
       }

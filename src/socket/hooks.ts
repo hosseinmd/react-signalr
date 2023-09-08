@@ -1,39 +1,28 @@
 import hermes from "hermes-channel";
-import { DependencyList, useEffect } from "react";
+import { useEffect } from "react";
 import { Context, Hub } from "./types";
+import { useEvent } from "../utils";
 
 function createUseSocketEffect<T extends Hub>(context: Context<T>) {
   const useSocketEffect = <T extends string, C extends (...args: any) => void>(
-    events: T,
+    event: T,
     callback: C,
-    deps: DependencyList,
   ) => {
+    const callbackRef = useEvent(callback);
     useEffect(() => {
-      let _events: string[];
       function _callback(args: any[]) {
-        callback(...(Array.isArray(args) ? args : [args]));
+        callbackRef(...(Array.isArray(args) ? args : [args]));
       }
 
-      // backward compatible array should remove
-      if (!Array.isArray(events)) {
-        _events = [events];
-      } else {
-        _events = events;
-      }
-
-      _events.forEach((event) => {
-        context.on?.(event);
-        hermes.on(event, _callback);
-      });
+      context.on?.(event);
+      hermes.on(event, _callback);
 
       return () => {
-        _events.forEach((event) => {
-          context.off?.(event);
-          hermes.off(event, _callback);
-        });
+        context.off?.(event);
+        hermes.off(event, _callback);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, deps);
+    }, []);
   };
 
   return useSocketEffect;

@@ -1,5 +1,5 @@
 import hermes from "hermes-channel";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 
 const __DEV__ = process.env.NODE_ENV !== "production";
 
@@ -17,13 +17,17 @@ function sendWithHermes(
   hermes.send(event, message, shareConnectionBetweenTab ? "all" : "current");
 }
 
-function usePropRef<T>(prop: T) {
+function useEvent<T extends undefined | ((...args: any[]) => any)>(prop: T): T {
   const ref = useRef<T>(prop);
   if (ref.current !== prop) {
     ref.current = prop;
   }
 
-  return ref;
+  const callback = useCallback((...args: any[]) => {
+    return ref.current!(...args);
+  }, []) as T;
+
+  return prop ? callback : prop;
 }
 
-export { removeDuplicates, sendWithHermes, usePropRef, __DEV__ };
+export { removeDuplicates, sendWithHermes, useEvent, __DEV__ };

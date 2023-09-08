@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { usePropRef } from "../../utils";
+import { useEvent } from "../../utils";
 import { Context } from "../types";
 import { createConnection, isConnectionConnecting } from "../utils";
 import { ProviderProps } from "./types";
@@ -15,7 +15,7 @@ function providerNativeFactory(context: Context) {
     onClose,
     logger = console,
   }: ProviderProps) => {
-    const onErrorRef = usePropRef(onError);
+    const onErrorRef = useEvent(onError);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const clear = useRef(() => {});
 
@@ -36,7 +36,7 @@ function providerNativeFactory(context: Context) {
             });
           } catch (err) {
             console.log(err);
-            onErrorRef.current?.(err as any);
+            onErrorRef?.(err as any);
           }
         }
       }
