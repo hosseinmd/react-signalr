@@ -162,9 +162,10 @@ const Comp = () => {
 
 ### supports
 
-| react-signalr | @microsoft/signalr |
-| ------------- | ------------------ |
-| 0.2.x         | 7.x                |
+| react-signalr  | @microsoft/signalr |
+| -------------- | ------------------ |
+| 0.2.0 - 0.2.18 | 7.x                |
+| 0.2.19         | 7.x - 8.x          |
 
 ### React-Native
 
