@@ -32,14 +32,19 @@
   },
   "homepage": "https://github.com/hosseinmd/react-signalr#readme",
   "dependencies": {
-    "@microsoft/signalr": "^7.0.10",
     "hermes-channel": "^2.1.2",
     "js-cookie": "^2.2.1",
-    "socket.io-client": "^4.2.0",
-    "socket.io": "^4.2.0",
     "uuid": "^8.3.2"
   },
+  "peerDependencies": {
+    "react": ">=16.13",
+    "@microsoft/signalr": "^8.0.0",
+    "socket.io-client": "^4.2.0"
+  },
   "devDependencies": {
+    "socket.io-client": "^4.2.0",
+    "socket.io": "^4.2.0",
+    "@microsoft/signalr": "^8.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.15",
@@ -66,9 +71,6 @@
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.4",
     "typescript": "^5.2.2"
-  },
-  "peerDependencies": {
-    "react": ">=16.13"
   },
   "husky": {
     "hooks": {

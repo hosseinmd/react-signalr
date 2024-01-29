@@ -160,6 +160,12 @@ const Comp = () => {
 };
 ```
 
+### supports
+
+| react-signalr | @microsoft/signalr |
+| ------------- | ------------------ |
+| 0.2.x         | 7.x                |
+
 ### React-Native
 
 Full supported
