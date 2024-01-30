@@ -150,7 +150,6 @@ const Comp = () => {
   const [messages, setMessage] = useState([]);
 
   WebsocketContext.useWebSocketEffect(
-    "event name", // Your Event Key
     (message) => {
       setMessage([...messages, message]);
     },
