@@ -16,7 +16,7 @@ function isConnectionConnecting(connection: HubConnection) {
 function createConnection(
   url: string,
   transportType: IHttpConnectionOptions,
-  automaticReconnect = true,
+  automaticReconnect: boolean | number[] = true,
 ) {
   let connectionBuilder = new HubConnectionBuilder().withUrl(
     url,
@@ -24,7 +24,12 @@ function createConnection(
   );
 
   if (automaticReconnect) {
-    connectionBuilder = connectionBuilder.withAutomaticReconnect();
+    if (Array.isArray(automaticReconnect)) {
+      connectionBuilder =
+        connectionBuilder.withAutomaticReconnect(automaticReconnect);
+    } else {
+      connectionBuilder = connectionBuilder.withAutomaticReconnect();
+    }
   }
 
   if (transportType.logger) {
