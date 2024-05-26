@@ -15,9 +15,9 @@ function createSocketIoContext<T extends Hub>(options?: {
     connection: null,
     useSocketEffect: null as any, // Assigned after context
     shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
-    invoke: (methodName: string, ...args: any[]) => {
+    invoke: (methodName, ...args: any[]) => {
       if (!context.shareConnectionBetweenTab) {
-        context.connection?.emit(methodName, ...args);
+        context.connection?.emit(methodName as string, ...args);
         return;
       }
       sendWithHermes(

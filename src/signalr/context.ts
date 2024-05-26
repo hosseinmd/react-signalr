@@ -11,14 +11,14 @@ const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 function createSignalRContext<T extends Hub>(options?: {
   shareConnectionBetweenTab?: boolean;
 }) {
-  const events: T["callbacksName"][] = [];
+  const events: (keyof T["callbacks"])[] = [];
   const context: Context<T> = {
     connection: null,
     useSignalREffect: null as any, // Assigned after context
     shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
-    invoke(methodName: string, ...args: any[]): Promise<any> | undefined {
+    invoke(methodName, ...args: any[]): Promise<any> | undefined {
       if (!context.shareConnectionBetweenTab) {
-        return context.connection?.invoke(methodName, ...args);
+        return context.connection?.invoke(methodName as string, ...args);
       }
 
       const SIGNAL_R_RESPONSE = uuid();
@@ -53,7 +53,7 @@ function createSignalRContext<T extends Hub>(options?: {
     },
     //@ts-ignore
     reOn: () => {
-      const uniqueEvents = removeDuplicates(events);
+      const uniqueEvents = removeDuplicates(events as string[]);
 
       uniqueEvents.forEach((event) => {
         context.connection?.on(event, (...message: any) => {

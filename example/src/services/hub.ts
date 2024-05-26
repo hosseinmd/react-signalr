@@ -25,10 +25,8 @@ export type ChatCallbacks = {
 };
 
 export interface Chat {
-  callbacksName: ChatCallbacksNames;
   callbacks: ChatCallbacks;
 
-  methodsName: ChatOperationsNames;
   methods: ChatOperations;
 }
 

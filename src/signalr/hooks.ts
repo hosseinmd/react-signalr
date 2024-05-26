@@ -4,8 +4,11 @@ import { Context, Hub } from "./types";
 import { useEvent } from "../utils";
 
 function createUseSignalREffect<T extends Hub>(context: Context<T>) {
-  const useSignalREffect = <T extends string, C extends (...args: any) => void>(
-    event: T,
+  const useSignalREffect = <
+    E extends keyof T["callbacks"],
+    C extends (...args: any) => void,
+  >(
+    event: E,
     callback: C,
   ) => {
     const callbackRef = useEvent(callback);
@@ -14,12 +17,12 @@ function createUseSignalREffect<T extends Hub>(context: Context<T>) {
         callbackRef(...args);
       }
 
-      context.on?.(event);
-      hermes.on(event, _callback);
+      context.on?.(event as string);
+      hermes.on(event as string, _callback);
 
       return () => {
-        context.off?.(event);
-        hermes.off(event, _callback);
+        context.off?.(event as string);
+        hermes.off(event as string, _callback);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

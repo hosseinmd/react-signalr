@@ -7,14 +7,17 @@ export interface Context<T extends Hub> {
   connection: HubConnection | null;
   shareConnectionBetweenTab: boolean;
   invoke: <
-    E extends T["methodsName"],
+    E extends keyof T["methods"],
     C extends Parameters<T["methods"][E]>,
     R = any,
   >(
     methodName: E,
     ...args: C
   ) => Promise<R> | undefined;
-  useSignalREffect: <E extends T["callbacksName"], C extends T["callbacks"][E]>(
+  useSignalREffect: <
+    E extends keyof T["callbacks"],
+    C extends T["callbacks"][E],
+  >(
     events: E,
     callback: C,
     deps: DependencyList,
@@ -24,16 +27,10 @@ export interface Context<T extends Hub> {
 }
 
 export interface Hub<T extends string = string, M extends string = string> {
-  callbacksName: T;
-  methodsName: M;
   callbacks: {
-    [name in T]: <F extends (...args: any) => any>(
-      ...args: Parameters<F>
-    ) => void;
+    [name in T]: (...args: any[]) => void;
   };
   methods: {
-    [name in M]: <F extends (...args: any) => any>(
-      ...args: Parameters<F>
-    ) => void;
+    [name in M]: (...args: any[]) => void;
   };
 }
