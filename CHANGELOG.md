@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.21](https://github.com/hosseinmd/react-signalr/compare/v0.2.20...v0.2.21) (2024-05-26)
+
+
+### Bug Fixes
+
+* source map missed ([3f360fa](https://github.com/hosseinmd/react-signalr/commit/3f360fa2c4a2972ec0fa8c3787962a465add1b82))
+
 ### [0.2.20](https://github.com/hosseinmd/react-signalr/compare/v0.2.19...v0.2.20) (2024-05-26)
 
 
