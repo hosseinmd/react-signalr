@@ -31,4 +31,3 @@ var __exportStar =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./lib/socket"), exports);
-//# sourceMappingURL=index.js.map
