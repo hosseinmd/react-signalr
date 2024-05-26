@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.22](https://github.com/hosseinmd/react-signalr/compare/v0.2.21...v0.2.22) (2024-05-26)
+
+
+### Features
+
+* add retyrDelay to automaticReconnect ([93b43b1](https://github.com/hosseinmd/react-signalr/commit/93b43b1fab2860da85702ed2723d8ec113561015))
+
 ### [0.2.21](https://github.com/hosseinmd/react-signalr/compare/v0.2.20...v0.2.21) (2024-05-26)
 
 
