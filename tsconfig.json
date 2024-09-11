@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["react-native", "jest"],
     "jsx": "react",
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */
