@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.23](https://github.com/hosseinmd/react-signalr/compare/v0.2.22...v0.2.23) (2024-09-11)
+
+
+### Features
+
+* support react-native headers for websocket ([9048654](https://github.com/hosseinmd/react-signalr/commit/9048654b73f751472083f4c24406ee3e8f07b99a))
+
 ### [0.2.22](https://github.com/hosseinmd/react-signalr/compare/v0.2.21...v0.2.22) (2024-05-26)
 
 
