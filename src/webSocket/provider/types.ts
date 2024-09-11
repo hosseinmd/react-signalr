@@ -13,4 +13,8 @@ export interface ProviderProps {
     log: Console["log"];
     error: Console["error"];
   } | null;
+  /**
+   * react-native only
+   */
+  headers?: any;
 }

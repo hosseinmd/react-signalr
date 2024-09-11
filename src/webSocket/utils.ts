@@ -18,11 +18,23 @@ function createConnection(
     onClose,
     onErrorRef,
     logger,
-  }: Pick<ProviderProps, "url" | "onOpen" | "logger" | "onClose"> & {
+    headers,
+  }: Pick<
+    ProviderProps,
+    "url" | "onOpen" | "logger" | "onClose" | "headers"
+  > & {
     onErrorRef: any;
   },
 ) {
-  const connection = new WebSocket(url);
+  let connection: WebSocket;
+  if (headers) {
+    //@ts-ignore
+    connection = new WebSocket(url, null, {
+      headers,
+    });
+  } else {
+    connection = new WebSocket(url);
+  }
 
   connection.onopen = () => {
     onOpen?.(connection);

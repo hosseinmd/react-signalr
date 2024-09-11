@@ -14,6 +14,7 @@ function providerNativeFactory(context: Context) {
     onOpen,
     onClose,
     logger = console,
+    headers,
   }: ProviderProps) => {
     const onErrorRef = useEvent(onError);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -33,6 +34,7 @@ function providerNativeFactory(context: Context) {
               logger,
               url,
               onErrorRef,
+              headers,
             });
           } catch (err) {
             console.log(err);
