@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.24](https://github.com/hosseinmd/react-signalr/compare/v0.2.23...v0.2.24) (2024-09-28)
+
+
+### Bug Fixes
+
+* remove useless random-value package ([e5f3803](https://github.com/hosseinmd/react-signalr/commit/e5f38033ba8396d7d8ab2317e3f374c8b0b5383d))
+
 ### [0.2.23](https://github.com/hosseinmd/react-signalr/compare/v0.2.22...v0.2.23) (2024-09-11)
 
 
