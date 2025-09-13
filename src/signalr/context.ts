@@ -1,4 +1,4 @@
-import { HubConnectionState } from "@microsoft/signalr";
+import { HubConnectionState, IHubProtocol } from "@microsoft/signalr";
 import hermes from "hermes-channel";
 import { removeDuplicates, sendWithHermes } from "../utils";
 import { createUseSignalREffect } from "./hooks";
@@ -10,12 +10,14 @@ import { providerNativeFactory } from "./provider/providerNativeFactory";
 const SIGNAL_R_INVOKE = "SIGNAL_R_INVOKE";
 function createSignalRContext<T extends Hub>(options?: {
   shareConnectionBetweenTab?: boolean;
+  hubProtocol?: IHubProtocol;
 }) {
   const events: (keyof T["callbacks"])[] = [];
   const context: Context<T> = {
     connection: null,
     useSignalREffect: null as any, // Assigned after context
     shareConnectionBetweenTab: options?.shareConnectionBetweenTab || false,
+    hubProtocol: options?.hubProtocol,
     invoke(methodName, ...args: any[]): Promise<any> | undefined {
       if (!context.shareConnectionBetweenTab) {
         return context.connection?.invoke(methodName as string, ...args);

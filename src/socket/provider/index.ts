@@ -84,7 +84,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
             return;
           }
 
-          shoutConnected(connection.id);
+          shoutConnected(connection.id || null);
         }
         if (
           (!lastConnectionSentState ||
@@ -92,7 +92,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           !isConnectionConnecting(connection)
         ) {
           try {
-            shoutConnected(connection.id);
+            shoutConnected(connection.id || null);
             connection.open();
 
             sentInterval = setInterval(syncWithTabs, 4000);

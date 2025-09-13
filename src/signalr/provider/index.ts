@@ -43,6 +43,7 @@ function providerFactory<T extends Hub>(Context: Context<T>) {
           ...rest,
         },
         automaticReconnect,
+        Context.hubProtocol,
       );
 
       connection.onreconnecting((error) => onErrorRef?.(error));

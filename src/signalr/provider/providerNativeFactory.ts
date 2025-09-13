@@ -36,6 +36,7 @@ function providerNativeFactory<T extends Hub>(Context: Context<T>) {
           ...rest,
         },
         automaticReconnect,
+        Context.hubProtocol,
       );
       connection.onreconnecting((error) => onErrorRef?.(error));
       connection.onreconnected(() => onReconnect?.(connection));

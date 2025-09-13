@@ -3,6 +3,7 @@ import {
   HubConnectionBuilder,
   HubConnectionState,
   IHttpConnectionOptions,
+  IHubProtocol,
 } from "@microsoft/signalr";
 
 function isConnectionConnecting(connection: HubConnection) {
@@ -17,6 +18,7 @@ function createConnection(
   url: string,
   transportType: IHttpConnectionOptions,
   automaticReconnect: boolean | number[] = true,
+  hubProtocol: IHubProtocol | undefined,
 ) {
   let connectionBuilder = new HubConnectionBuilder().withUrl(
     url,
@@ -30,6 +32,10 @@ function createConnection(
     } else {
       connectionBuilder = connectionBuilder.withAutomaticReconnect();
     }
+  }
+
+  if (hubProtocol) {
+    connectionBuilder = connectionBuilder.withHubProtocol(hubProtocol);
   }
 
   if (transportType.logger) {
